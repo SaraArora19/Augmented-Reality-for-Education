@@ -1,0 +1,1374 @@
+[
+  {
+    "session_id": "STU_23BCE_001",
+    "participant_name": "Student Participant #1",
+    "active_module": "Human Anatomy",
+    "completion_time_sec": 220,
+    "pre_test_score": 46.4,
+    "post_test_score": 89.0,
+    "learning_gain": {
+      "pre_score": 46.4,
+      "post_score": 89.0,
+      "absolute_gain": 42.6,
+      "normalized_gain_g": 0.795,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        4,
+        1,
+        4,
+        1,
+        5,
+        1,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 19.1,
+      "dimensions": {
+        "mental": 33.2,
+        "physical": 17.5,
+        "temporal": 22.6,
+        "performance": 88.5,
+        "effort": 21.0,
+        "frustration": 8.5
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.53,
+      "relevance": 4.61,
+      "confidence": 4.7,
+      "satisfaction": 4.5,
+      "mean": 4.58
+    }
+  },
+  {
+    "session_id": "STU_23BCE_002",
+    "participant_name": "Student Participant #2",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 191,
+    "pre_test_score": 39.6,
+    "post_test_score": 84.1,
+    "learning_gain": {
+      "pre_score": 39.6,
+      "post_score": 84.1,
+      "absolute_gain": 44.5,
+      "normalized_gain_g": 0.737,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        4,
+        1,
+        4,
+        2,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.4,
+      "dimensions": {
+        "mental": 31.2,
+        "physical": 10.3,
+        "temporal": 23.8,
+        "performance": 87.3,
+        "effort": 16.9,
+        "frustration": 9.5
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.77,
+      "relevance": 4.8,
+      "confidence": 4.59,
+      "satisfaction": 4.85,
+      "mean": 4.75
+    }
+  },
+  {
+    "session_id": "STU_23BCE_003",
+    "participant_name": "Student Participant #3",
+    "active_module": "Mechanics & Physics",
+    "completion_time_sec": 322,
+    "pre_test_score": 44.1,
+    "post_test_score": 71.7,
+    "learning_gain": {
+      "pre_score": 44.1,
+      "post_score": 71.7,
+      "absolute_gain": 27.6,
+      "normalized_gain_g": 0.494,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        5,
+        2,
+        5,
+        2,
+        5,
+        2,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.8,
+      "dimensions": {
+        "mental": 28.3,
+        "physical": 9.9,
+        "temporal": 19.4,
+        "performance": 86.4,
+        "effort": 20.7,
+        "frustration": 8.7
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.55,
+      "relevance": 4.52,
+      "confidence": 4.43,
+      "satisfaction": 4.96,
+      "mean": 4.62
+    }
+  },
+  {
+    "session_id": "STU_23BCE_004",
+    "participant_name": "Student Participant #4",
+    "active_module": "Mechanics & Physics",
+    "completion_time_sec": 329,
+    "pre_test_score": 36.7,
+    "post_test_score": 69.9,
+    "learning_gain": {
+      "pre_score": 36.7,
+      "post_score": 69.9,
+      "absolute_gain": 33.2,
+      "normalized_gain_g": 0.524,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 82.5,
+      "responses": [
+        4,
+        1,
+        4,
+        2,
+        5,
+        2,
+        4,
+        1,
+        4,
+        2
+      ],
+      "adjective_rating": "Excellent (Grade A)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 21.5,
+      "dimensions": {
+        "mental": 33.4,
+        "physical": 17.4,
+        "temporal": 24.3,
+        "performance": 83.7,
+        "effort": 25.4,
+        "frustration": 12.1
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.85,
+      "relevance": 4.58,
+      "confidence": 4.67,
+      "satisfaction": 4.71,
+      "mean": 4.7
+    }
+  },
+  {
+    "session_id": "STU_23BCE_005",
+    "participant_name": "Student Participant #5",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 248,
+    "pre_test_score": 27.7,
+    "post_test_score": 82.8,
+    "learning_gain": {
+      "pre_score": 27.7,
+      "post_score": 82.8,
+      "absolute_gain": 55.1,
+      "normalized_gain_g": 0.762,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 97.5,
+      "responses": [
+        5,
+        1,
+        5,
+        1,
+        4,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 21.8,
+      "dimensions": {
+        "mental": 36.5,
+        "physical": 15.1,
+        "temporal": 24.9,
+        "performance": 87.9,
+        "effort": 31.8,
+        "frustration": 10.1
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.41,
+      "relevance": 4.7,
+      "confidence": 4.64,
+      "satisfaction": 4.77,
+      "mean": 4.63
+    }
+  },
+  {
+    "session_id": "STU_23BCE_006",
+    "participant_name": "Student Participant #6",
+    "active_module": "Plant Biology",
+    "completion_time_sec": 258,
+    "pre_test_score": 46.6,
+    "post_test_score": 92.0,
+    "learning_gain": {
+      "pre_score": 46.6,
+      "post_score": 92.0,
+      "absolute_gain": 45.4,
+      "normalized_gain_g": 0.85,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        4,
+        2,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 19.7,
+      "dimensions": {
+        "mental": 33.5,
+        "physical": 16.8,
+        "temporal": 25.2,
+        "performance": 97.5,
+        "effort": 31.9,
+        "frustration": 8.4
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.76,
+      "relevance": 4.54,
+      "confidence": 4.36,
+      "satisfaction": 4.68,
+      "mean": 4.58
+    }
+  },
+  {
+    "session_id": "STU_23BCE_007",
+    "participant_name": "Student Participant #7",
+    "active_module": "Mechanics & Physics",
+    "completion_time_sec": 292,
+    "pre_test_score": 53.4,
+    "post_test_score": 98.0,
+    "learning_gain": {
+      "pre_score": 53.4,
+      "post_score": 98.0,
+      "absolute_gain": 44.6,
+      "normalized_gain_g": 0.957,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        4,
+        1,
+        5,
+        1,
+        4,
+        1,
+        5,
+        1,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.8,
+      "dimensions": {
+        "mental": 31.0,
+        "physical": 20.1,
+        "temporal": 17.6,
+        "performance": 89.4,
+        "effort": 17.7,
+        "frustration": 10.0
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.52,
+      "relevance": 4.42,
+      "confidence": 4.8,
+      "satisfaction": 4.82,
+      "mean": 4.64
+    }
+  },
+  {
+    "session_id": "STU_23BCE_008",
+    "participant_name": "Student Participant #8",
+    "active_module": "Chemistry",
+    "completion_time_sec": 326,
+    "pre_test_score": 37.0,
+    "post_test_score": 80.1,
+    "learning_gain": {
+      "pre_score": 37.0,
+      "post_score": 80.1,
+      "absolute_gain": 43.1,
+      "normalized_gain_g": 0.684,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 85.0,
+      "responses": [
+        4,
+        2,
+        4,
+        1,
+        4,
+        1,
+        4,
+        1,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 18.7,
+      "dimensions": {
+        "mental": 31.5,
+        "physical": 13.0,
+        "temporal": 20.9,
+        "performance": 88.5,
+        "effort": 21.7,
+        "frustration": 13.6
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.57,
+      "relevance": 4.54,
+      "confidence": 4.57,
+      "satisfaction": 4.86,
+      "mean": 4.63
+    }
+  },
+  {
+    "session_id": "STU_23BCE_009",
+    "participant_name": "Student Participant #9",
+    "active_module": "Chemistry",
+    "completion_time_sec": 251,
+    "pre_test_score": 30.8,
+    "post_test_score": 74.3,
+    "learning_gain": {
+      "pre_score": 30.8,
+      "post_score": 74.3,
+      "absolute_gain": 43.5,
+      "normalized_gain_g": 0.629,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        5,
+        1,
+        4,
+        1,
+        5,
+        2,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.6,
+      "dimensions": {
+        "mental": 25.3,
+        "physical": 6.3,
+        "temporal": 23.3,
+        "performance": 90.6,
+        "effort": 19.8,
+        "frustration": 15.2
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.55,
+      "relevance": 4.33,
+      "confidence": 4.52,
+      "satisfaction": 4.71,
+      "mean": 4.53
+    }
+  },
+  {
+    "session_id": "STU_23BCE_010",
+    "participant_name": "Student Participant #10",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 322,
+    "pre_test_score": 41.5,
+    "post_test_score": 94.8,
+    "learning_gain": {
+      "pre_score": 41.5,
+      "post_score": 94.8,
+      "absolute_gain": 53.3,
+      "normalized_gain_g": 0.911,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        4,
+        1,
+        4,
+        1,
+        4,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.4,
+      "dimensions": {
+        "mental": 28.5,
+        "physical": 14.2,
+        "temporal": 18.9,
+        "performance": 88.9,
+        "effort": 15.6,
+        "frustration": 16.0
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.56,
+      "relevance": 4.75,
+      "confidence": 4.53,
+      "satisfaction": 4.71,
+      "mean": 4.64
+    }
+  },
+  {
+    "session_id": "STU_23BCE_011",
+    "participant_name": "Student Participant #11",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 325,
+    "pre_test_score": 44.4,
+    "post_test_score": 89.9,
+    "learning_gain": {
+      "pre_score": 44.4,
+      "post_score": 89.9,
+      "absolute_gain": 45.5,
+      "normalized_gain_g": 0.818,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        4,
+        1,
+        4,
+        1,
+        5,
+        1,
+        4,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 19.9,
+      "dimensions": {
+        "mental": 37.4,
+        "physical": 12.2,
+        "temporal": 24.5,
+        "performance": 89.9,
+        "effort": 24.9,
+        "frustration": 10.2
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.44,
+      "relevance": 4.8,
+      "confidence": 4.5,
+      "satisfaction": 4.97,
+      "mean": 4.68
+    }
+  },
+  {
+    "session_id": "STU_23BCE_012",
+    "participant_name": "Student Participant #12",
+    "active_module": "Mechanics & Physics",
+    "completion_time_sec": 317,
+    "pre_test_score": 39.9,
+    "post_test_score": 81.2,
+    "learning_gain": {
+      "pre_score": 39.9,
+      "post_score": 81.2,
+      "absolute_gain": 41.3,
+      "normalized_gain_g": 0.687,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 90.0,
+      "responses": [
+        4,
+        1,
+        4,
+        1,
+        4,
+        2,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 20.2,
+      "dimensions": {
+        "mental": 31.7,
+        "physical": 15.6,
+        "temporal": 17.3,
+        "performance": 84.1,
+        "effort": 32.5,
+        "frustration": 8.5
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.41,
+      "relevance": 4.63,
+      "confidence": 4.58,
+      "satisfaction": 4.55,
+      "mean": 4.54
+    }
+  },
+  {
+    "session_id": "STU_23BCE_013",
+    "participant_name": "Student Participant #13",
+    "active_module": "Mechanics & Physics",
+    "completion_time_sec": 321,
+    "pre_test_score": 38.2,
+    "post_test_score": 80.1,
+    "learning_gain": {
+      "pre_score": 38.2,
+      "post_score": 80.1,
+      "absolute_gain": 41.9,
+      "normalized_gain_g": 0.678,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 97.5,
+      "responses": [
+        5,
+        1,
+        5,
+        2,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.7,
+      "dimensions": {
+        "mental": 41.0,
+        "physical": 13.4,
+        "temporal": 14.2,
+        "performance": 86.8,
+        "effort": 15.3,
+        "frustration": 9.1
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.46,
+      "relevance": 4.81,
+      "confidence": 4.43,
+      "satisfaction": 4.94,
+      "mean": 4.66
+    }
+  },
+  {
+    "session_id": "STU_23BCE_014",
+    "participant_name": "Student Participant #14",
+    "active_module": "Mechanics & Physics",
+    "completion_time_sec": 218,
+    "pre_test_score": 40.3,
+    "post_test_score": 89.0,
+    "learning_gain": {
+      "pre_score": 40.3,
+      "post_score": 89.0,
+      "absolute_gain": 48.7,
+      "normalized_gain_g": 0.816,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        5,
+        1,
+        5,
+        2,
+        4,
+        1,
+        5,
+        2
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 20.2,
+      "dimensions": {
+        "mental": 36.3,
+        "physical": 14.7,
+        "temporal": 27.6,
+        "performance": 97.2,
+        "effort": 26.3,
+        "frustration": 13.3
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.82,
+      "relevance": 4.59,
+      "confidence": 4.36,
+      "satisfaction": 4.97,
+      "mean": 4.69
+    }
+  },
+  {
+    "session_id": "STU_23BCE_015",
+    "participant_name": "Student Participant #15",
+    "active_module": "Chemistry",
+    "completion_time_sec": 225,
+    "pre_test_score": 47.3,
+    "post_test_score": 90.4,
+    "learning_gain": {
+      "pre_score": 47.3,
+      "post_score": 90.4,
+      "absolute_gain": 43.1,
+      "normalized_gain_g": 0.818,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        4,
+        1,
+        5,
+        1,
+        4,
+        2,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.8,
+      "dimensions": {
+        "mental": 28.9,
+        "physical": 10.0,
+        "temporal": 16.9,
+        "performance": 92.6,
+        "effort": 31.6,
+        "frustration": 6.2
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.85,
+      "relevance": 4.85,
+      "confidence": 4.42,
+      "satisfaction": 4.58,
+      "mean": 4.67
+    }
+  },
+  {
+    "session_id": "STU_23BCE_016",
+    "participant_name": "Student Participant #16",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 251,
+    "pre_test_score": 51.5,
+    "post_test_score": 94.8,
+    "learning_gain": {
+      "pre_score": 51.5,
+      "post_score": 94.8,
+      "absolute_gain": 43.3,
+      "normalized_gain_g": 0.893,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 97.5,
+      "responses": [
+        5,
+        1,
+        5,
+        2,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 18.8,
+      "dimensions": {
+        "mental": 35.5,
+        "physical": 20.4,
+        "temporal": 15.7,
+        "performance": 94.8,
+        "effort": 26.0,
+        "frustration": 9.7
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.8,
+      "relevance": 4.48,
+      "confidence": 4.44,
+      "satisfaction": 4.53,
+      "mean": 4.56
+    }
+  },
+  {
+    "session_id": "STU_23BCE_017",
+    "participant_name": "Student Participant #17",
+    "active_module": "Plant Biology",
+    "completion_time_sec": 313,
+    "pre_test_score": 37.6,
+    "post_test_score": 75.7,
+    "learning_gain": {
+      "pre_score": 37.6,
+      "post_score": 75.7,
+      "absolute_gain": 38.1,
+      "normalized_gain_g": 0.611,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 85.0,
+      "responses": [
+        4,
+        2,
+        4,
+        1,
+        5,
+        1,
+        4,
+        2,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 19.2,
+      "dimensions": {
+        "mental": 28.2,
+        "physical": 12.4,
+        "temporal": 21.0,
+        "performance": 83.3,
+        "effort": 26.0,
+        "frustration": 10.9
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.94,
+      "relevance": 4.33,
+      "confidence": 4.32,
+      "satisfaction": 4.72,
+      "mean": 4.58
+    }
+  },
+  {
+    "session_id": "STU_23BCE_018",
+    "participant_name": "Student Participant #18",
+    "active_module": "Chemistry",
+    "completion_time_sec": 257,
+    "pre_test_score": 35.8,
+    "post_test_score": 66.9,
+    "learning_gain": {
+      "pre_score": 35.8,
+      "post_score": 66.9,
+      "absolute_gain": 31.1,
+      "normalized_gain_g": 0.484,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 97.5,
+      "responses": [
+        5,
+        2,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 19.0,
+      "dimensions": {
+        "mental": 30.1,
+        "physical": 16.9,
+        "temporal": 17.3,
+        "performance": 90.2,
+        "effort": 26.9,
+        "frustration": 12.9
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.96,
+      "relevance": 4.67,
+      "confidence": 4.75,
+      "satisfaction": 4.81,
+      "mean": 4.8
+    }
+  },
+  {
+    "session_id": "STU_23BCE_019",
+    "participant_name": "Student Participant #19",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 240,
+    "pre_test_score": 41.3,
+    "post_test_score": 83.3,
+    "learning_gain": {
+      "pre_score": 41.3,
+      "post_score": 83.3,
+      "absolute_gain": 42.0,
+      "normalized_gain_g": 0.716,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        5,
+        1,
+        5,
+        1,
+        4,
+        2,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 18.1,
+      "dimensions": {
+        "mental": 23.1,
+        "physical": 13.6,
+        "temporal": 26.3,
+        "performance": 86.2,
+        "effort": 22.2,
+        "frustration": 9.3
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.8,
+      "relevance": 4.63,
+      "confidence": 4.35,
+      "satisfaction": 4.98,
+      "mean": 4.69
+    }
+  },
+  {
+    "session_id": "STU_23BCE_020",
+    "participant_name": "Student Participant #20",
+    "active_module": "Plant Biology",
+    "completion_time_sec": 312,
+    "pre_test_score": 42.2,
+    "post_test_score": 87.5,
+    "learning_gain": {
+      "pre_score": 42.2,
+      "post_score": 87.5,
+      "absolute_gain": 45.3,
+      "normalized_gain_g": 0.784,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        4,
+        1,
+        5,
+        1,
+        4,
+        1,
+        5,
+        1,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.3,
+      "dimensions": {
+        "mental": 31.0,
+        "physical": 11.1,
+        "temporal": 18.2,
+        "performance": 89.5,
+        "effort": 20.8,
+        "frustration": 6.1
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.92,
+      "relevance": 4.82,
+      "confidence": 4.69,
+      "satisfaction": 4.61,
+      "mean": 4.76
+    }
+  },
+  {
+    "session_id": "STU_23BCE_021",
+    "participant_name": "Student Participant #21",
+    "active_module": "3D Geometry",
+    "completion_time_sec": 250,
+    "pre_test_score": 46.0,
+    "post_test_score": 89.2,
+    "learning_gain": {
+      "pre_score": 46.0,
+      "post_score": 89.2,
+      "absolute_gain": 43.2,
+      "normalized_gain_g": 0.8,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 90.0,
+      "responses": [
+        4,
+        1,
+        5,
+        1,
+        4,
+        1,
+        4,
+        2,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.2,
+      "dimensions": {
+        "mental": 36.2,
+        "physical": 8.2,
+        "temporal": 12.2,
+        "performance": 92.4,
+        "effort": 21.8,
+        "frustration": 11.5
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.92,
+      "relevance": 4.52,
+      "confidence": 4.68,
+      "satisfaction": 4.92,
+      "mean": 4.76
+    }
+  },
+  {
+    "session_id": "STU_23BCE_022",
+    "participant_name": "Student Participant #22",
+    "active_module": "Chemistry",
+    "completion_time_sec": 329,
+    "pre_test_score": 36.9,
+    "post_test_score": 79.3,
+    "learning_gain": {
+      "pre_score": 36.9,
+      "post_score": 79.3,
+      "absolute_gain": 42.4,
+      "normalized_gain_g": 0.672,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        5,
+        1,
+        5,
+        1,
+        5,
+        2,
+        5,
+        1,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 19.2,
+      "dimensions": {
+        "mental": 34.9,
+        "physical": 16.4,
+        "temporal": 21.6,
+        "performance": 90.6,
+        "effort": 20.9,
+        "frustration": 12.1
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.68,
+      "relevance": 4.24,
+      "confidence": 4.72,
+      "satisfaction": 4.69,
+      "mean": 4.58
+    }
+  },
+  {
+    "session_id": "STU_23BCE_023",
+    "participant_name": "Student Participant #23",
+    "active_module": "Human Anatomy",
+    "completion_time_sec": 339,
+    "pre_test_score": 48.1,
+    "post_test_score": 83.4,
+    "learning_gain": {
+      "pre_score": 48.1,
+      "post_score": 83.4,
+      "absolute_gain": 35.3,
+      "normalized_gain_g": 0.68,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        4,
+        2,
+        5,
+        1,
+        5,
+        1,
+        4,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.9,
+      "dimensions": {
+        "mental": 36.6,
+        "physical": 11.9,
+        "temporal": 19.3,
+        "performance": 93.1,
+        "effort": 19.4,
+        "frustration": 13.4
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.88,
+      "relevance": 4.71,
+      "confidence": 4.72,
+      "satisfaction": 4.96,
+      "mean": 4.82
+    }
+  },
+  {
+    "session_id": "STU_23BCE_024",
+    "participant_name": "Student Participant #24",
+    "active_module": "Chemistry",
+    "completion_time_sec": 193,
+    "pre_test_score": 47.6,
+    "post_test_score": 90.4,
+    "learning_gain": {
+      "pre_score": 47.6,
+      "post_score": 90.4,
+      "absolute_gain": 42.8,
+      "normalized_gain_g": 0.817,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        4,
+        1,
+        4,
+        1,
+        5,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.6,
+      "dimensions": {
+        "mental": 29.4,
+        "physical": 16.9,
+        "temporal": 15.7,
+        "performance": 95.9,
+        "effort": 22.3,
+        "frustration": 17.0
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.65,
+      "relevance": 4.78,
+      "confidence": 4.54,
+      "satisfaction": 4.87,
+      "mean": 4.71
+    }
+  },
+  {
+    "session_id": "STU_23BCE_025",
+    "participant_name": "Student Participant #25",
+    "active_module": "Plant Biology",
+    "completion_time_sec": 259,
+    "pre_test_score": 41.9,
+    "post_test_score": 85.8,
+    "learning_gain": {
+      "pre_score": 41.9,
+      "post_score": 85.8,
+      "absolute_gain": 43.9,
+      "normalized_gain_g": 0.756,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        4,
+        1,
+        5,
+        1,
+        4,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.6,
+      "dimensions": {
+        "mental": 28.9,
+        "physical": 10.6,
+        "temporal": 21.2,
+        "performance": 94.8,
+        "effort": 24.3,
+        "frustration": 9.5
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.76,
+      "relevance": 4.72,
+      "confidence": 4.36,
+      "satisfaction": 4.91,
+      "mean": 4.69
+    }
+  },
+  {
+    "session_id": "STU_23BCE_026",
+    "participant_name": "Student Participant #26",
+    "active_module": "Human Anatomy",
+    "completion_time_sec": 305,
+    "pre_test_score": 29.0,
+    "post_test_score": 65.5,
+    "learning_gain": {
+      "pre_score": 29.0,
+      "post_score": 65.5,
+      "absolute_gain": 36.5,
+      "normalized_gain_g": 0.514,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        4,
+        1,
+        5,
+        1,
+        4,
+        1,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 17.3,
+      "dimensions": {
+        "mental": 35.0,
+        "physical": 9.0,
+        "temporal": 18.9,
+        "performance": 87.5,
+        "effort": 18.2,
+        "frustration": 10.2
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.44,
+      "relevance": 4.65,
+      "confidence": 4.31,
+      "satisfaction": 4.71,
+      "mean": 4.53
+    }
+  },
+  {
+    "session_id": "STU_23BCE_027",
+    "participant_name": "Student Participant #27",
+    "active_module": "Human Anatomy",
+    "completion_time_sec": 277,
+    "pre_test_score": 36.1,
+    "post_test_score": 80.0,
+    "learning_gain": {
+      "pre_score": 36.1,
+      "post_score": 80.0,
+      "absolute_gain": 43.9,
+      "normalized_gain_g": 0.687,
+      "gain_category": "Medium Gain"
+    },
+    "sus": {
+      "sus_score": 92.5,
+      "responses": [
+        5,
+        1,
+        5,
+        1,
+        4,
+        2,
+        4,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 16.3,
+      "dimensions": {
+        "mental": 24.6,
+        "physical": 15.9,
+        "temporal": 19.1,
+        "performance": 96.7,
+        "effort": 24.8,
+        "frustration": 10.1
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.93,
+      "relevance": 4.37,
+      "confidence": 4.53,
+      "satisfaction": 4.81,
+      "mean": 4.66
+    }
+  },
+  {
+    "session_id": "STU_23BCE_028",
+    "participant_name": "Student Participant #28",
+    "active_module": "Plant Biology",
+    "completion_time_sec": 203,
+    "pre_test_score": 53.4,
+    "post_test_score": 97.1,
+    "learning_gain": {
+      "pre_score": 53.4,
+      "post_score": 97.1,
+      "absolute_gain": 43.7,
+      "normalized_gain_g": 0.938,
+      "gain_category": "High Gain (g >= 0.7)"
+    },
+    "sus": {
+      "sus_score": 95.0,
+      "responses": [
+        5,
+        1,
+        5,
+        2,
+        5,
+        2,
+        5,
+        1,
+        5,
+        1
+      ],
+      "adjective_rating": "Best Imaginable (Grade A+)"
+    },
+    "nasa_tlx": {
+      "raw_tlx_score": 20.2,
+      "dimensions": {
+        "mental": 44.1,
+        "physical": 14.5,
+        "temporal": 25.5,
+        "performance": 91.7,
+        "effort": 17.3,
+        "frustration": 11.3
+      }
+    },
+    "arcs_motivation": {
+      "attention": 4.81,
+      "relevance": 4.65,
+      "confidence": 4.55,
+      "satisfaction": 4.9,
+      "mean": 4.73
+    }
+  }
+]

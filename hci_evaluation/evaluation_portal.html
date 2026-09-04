@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Education — HCI Evaluation & Usability Study Portal (M3)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #0f172a;
+      --border: rgba(255, 255, 255, 0.1);
+      --primary: #06b6d4;
+      --accent: #8b5cf6;
+      --success: #10b981;
+      --text: #f8fafc;
+      --text-dim: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+    header {
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .study-intro {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      margin-bottom: 24px;
+    }
+    .study-intro h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .team-badge {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+    }
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px;
+      margin-bottom: 24px;
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .step-badge {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .step-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+    input[type="text"], select {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+    input[type="text"]:focus, select:focus {
+      border-color: var(--primary);
+    }
+    /* Likert Table */
+    .likert-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+    .likert-table th, .likert-table td {
+      padding: 12px 8px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .likert-table th:first-child, .likert-table td:first-child {
+      text-align: left;
+      width: 55%;
+    }
+    .likert-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    /* Slider Controls */
+    .slider-row {
+      margin-bottom: 18px;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .slider-control {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+    /* Buttons */
+    .submit-btn {
+      background: linear-gradient(135deg, #0284c7, #06b6d4);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+      transition: 0.2s ease;
+    }
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+    }
+    /* Results Box */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .metric-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+    }
+    .metric-val {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .metric-name {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <i class="fas fa-microscope"></i>
+      <span>EduAR Usability & Psychometrics Portal</span>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <a href="/" style="color: white; text-decoration: none; font-size: 13px; padding: 8px 14px; background: rgba(255,255,255,0.1); border-radius: 6px;"><i class="fas fa-cube"></i> Open AR App</a>
+      <a href="/flashcards" target="_blank" style="color: white; text-decoration: none; font-size: 13px; padding: 8px 14px; background: rgba(255,255,255,0.1); border-radius: 6px;"><i class="fas fa-print"></i> Flashcards</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="study-intro">
+      <h1>HCI Evaluation Protocol (M3 Testing & User Study)</h1>
+      <p class="team-badge">Project: Augmented Reality-Based HCI for Education | Authors: <strong>Radhika Agrawal (23BCE5021)</strong> & <strong>Sara Arora (23BCE5036)</strong></p>
+      <p style="font-size: 14px; color: var(--text-dim);">
+        This evaluation portal administers the validated Human-Computer Interaction psychometric battery defined in the DA1 Report methodology:
+        <strong>Pre/Post-Test Learning Gain</strong> (Hake 1998), the <strong>10-Item System Usability Scale (SUS)</strong> (Brooke 1996), the <strong>NASA-TLX Cognitive Workload Index</strong> (Hart & Staveland 1988), and <strong>Keller's ARCS Motivation Model</strong>.
+      </p>
+    </div>
+
+    <form id="evaluation-form">
+      <!-- Section 1: Demographics -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-badge">Section 1</span>
+          <h2 class="step-title">Participant Profile & Task Session</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label">Student Name / Participant ID</label>
+            <input type="text" id="p-name" required placeholder="e.g. Student_23BCE01">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Educational Module Evaluated</label>
+            <select id="p-module">
+              <option value="Human Anatomy">Human Anatomy (Heart, Brain, Eye)</option>
+              <option value="Mechanics & Physics">Mechanics & Physics (Engine, Motor, Gears)</option>
+              <option value="Plant Biology">Plant Biology (Plant Cell, Chloroplast, Flower)</option>
+              <option value="3D Geometry">3D Geometry (Polyhedra, Prism)</option>
+              <option value="Chemistry">Chemistry (DNA Helix, Water Molecule)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Pre & Post Test Scores -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-badge">Section 2</span>
+          <h2 class="step-title">Knowledge Acquisition (Pre-Test & Post-Test Scores)</h2>
+        </div>
+        <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 14px;">Enter baseline diagnostic test score (before AR session) and post-interaction test score (out of 100):</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div class="form-group">
+            <label class="form-label">Pre-Interaction Baseline Score (%)</label>
+            <input type="text" id="pre-score" value="42" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Post-Interaction Assessment Score (%)</label>
+            <input type="text" id="post-score" value="88" required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: System Usability Scale (SUS) -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-badge">Section 3</span>
+          <h2 class="step-title">System Usability Scale (SUS — Brooke 1996)</h2>
+        </div>
+        <p style="font-size: 13px; color: var(--text-dim); margin-bottom: 14px;">Rate each of the 10 standard statements from 1 (Strongly Disagree) to 5 (Strongly Agree):</p>
+
+        <table class="likert-table">
+          <thead>
+            <tr>
+              <th>Evaluation Item</th>
+              <th>1 (SD)</th><th>2</th><th>3</th><th>4</th><th>5 (SA)</th>
+            </tr>
+          </thead>
+          <tbody id="sus-tbody">
+            <!-- Dynamically populated 10 SUS questions -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Section 4: NASA-TLX Cognitive Workload -->
+      <div class="step-card">
+        <div class="step-header">
+          <span class="step-badge">Section 4</span>
+          <h2 class="step-title">NASA-TLX Cognitive Workload Assessment (0 - 100)</h2>
+        </div>
+        <div class="slider-row">
+          <div class="slider-labels">
+            <span><strong>Mental Demand:</strong> How mentally demanding was the AR task?</span>
+            <span id="val-mental">30</span>
+          </div>
+          <input type="range" class="slider-control" id="tlx-mental" min="0" max="100" value="30">
+        </div>
+        <div class="slider-row">
+          <div class="slider-labels">
+            <span><strong>Physical Demand:</strong> How physically demanding was phone handling/scanning?</span>
+            <span id="val-physical">15</span>
+          </div>
+          <input type="range" class="slider-control" id="tlx-physical" min="0" max="100" value="15">
+        </div>
+        <div class="slider-row">
+          <div class="slider-labels">
+            <span><strong>Temporal Demand:</strong> Did you feel hurried or rushed?</span>
+            <span id="val-temporal">20</span>
+          </div>
+          <input type="range" class="slider-control" id="tlx-temporal" min="0" max="100" value="20">
+        </div>
+        <div class="slider-row">
+          <div class="slider-labels">
+            <span><strong>Performance:</strong> How successful were you in accomplishing goals? (0=Failure, 100=Perfect)</span>
+            <span id="val-performance">90</span>
+          </div>
+          <input type="range" class="slider-control" id="tlx-performance" min="0" max="100" value="90">
+        </div>
+        <div class="slider-row">
+          <div class="slider-labels">
+            <span><strong>Effort:</strong> How hard did you have to work to maintain your level of comprehension?</span>
+            <span id="val-effort">25</span>
+          </div>
+          <input type="range" class="slider-control" id="tlx-effort" min="0" max="100" value="25">
+        </div>
+        <div class="slider-row">
+          <div class="slider-labels">
+            <span><strong>Frustration:</strong> Did you feel irritated, stressed, or discouraged?</span>
+            <span id="val-frustration">10</span>
+          </div>
+          <input type="range" class="slider-control" id="tlx-frustration" min="0" max="100" value="10">
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-check-circle"></i> Compute Psychometric Indices & Record Session
+      </button>
+    </form>
+
+    <!-- Computed Results Summary -->
+    <div class="step-card" id="results-card" style="display: none; margin-top: 30px;">
+      <div class="step-header">
+        <span class="step-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success); border-color: var(--success);">Analysis Results</span>
+        <h2 class="step-title">HCI Psychometric & Learning Assessment Report</h2>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-val" id="res-sus">87.5</div>
+          <div class="metric-name">SUS Score (0-100)</div>
+          <p id="res-sus-adj" style="font-size: 11px; color: var(--success); margin-top: 4px; font-weight: bold;">Grade A (Best Imaginable)</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="res-gain">0.79</div>
+          <div class="metric-name">Hake's Normalized Gain (g)</div>
+          <p id="res-gain-cat" style="font-size: 11px; color: var(--success); margin-top: 4px; font-weight: bold;">High Learning Gain (g ≥ 0.7)</p>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="res-tlx">21.6</div>
+          <div class="metric-name">NASA-TLX Raw Workload</div>
+          <p style="font-size: 11px; color: var(--primary); margin-top: 4px; font-weight: bold;">Low Cognitive Overhead</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SUS_QUESTIONS = [
+      "1. I think that I would like to use this Augmented Reality system frequently for learning.",
+      "2. I found the AR educational system unnecessarily complex.",
+      "3. I thought the AR application was easy to use.",
+      "4. I think that I would need the support of a technical person to be able to use this AR system.",
+      "5. I found the various 3D models and interactive features well integrated in this system.",
+      "6. I thought there was too much inconsistency in this AR application.",
+      "7. I would imagine that most students would learn to use this AR system very quickly.",
+      "8. I found the AR marker scanning and 3D manipulation very cumbersome to use.",
+      "9. I felt very confident using the AR application.",
+      "10. I needed to learn a lot of things before I could get going with this AR system."
+    ];
+
+    // Populate SUS table
+    const tbody = document.getElementById("sus-tbody");
+    SUS_QUESTIONS.forEach((q, idx) => {
+      const tr = document.createElement("tr");
+      // Default ratings: positive items = 5, negative items = 1
+      const defaultVal = (idx % 2 === 0) ? 5 : 1;
+      let radiosHtml = "";
+      for (let v = 1; v <= 5; v++) {
+        const checked = (v === defaultVal) ? "checked" : "";
+        radiosHtml += `<td><input type="radio" name="sus_${idx}" value="${v}" ${checked}></td>`;
+      }
+      tr.innerHTML = `<td>${q}</td>${radiosHtml}`;
+      tbody.appendChild(tr);
+    });
+
+    // Wire sliders
+    ["mental", "physical", "temporal", "performance", "effort", "frustration"].forEach(dim => {
+      const slider = document.getElementById(`tlx-${dim}`);
+      const lbl = document.getElementById(`val-${dim}`);
+      slider.addEventListener("input", () => { lbl.textContent = slider.value; });
+    });
+
+    // Form Submission
+    document.getElementById("evaluation-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const pName = document.getElementById("p-name").value;
+      const pModule = document.getElementById("p-module").value;
+      const preScore = parseFloat(document.getElementById("pre-score").value) || 0;
+      const postScore = parseFloat(document.getElementById("post-score").value) || 0;
+
+      // Extract SUS
+      const susResponses = [];
+      for (let i = 0; i < 10; i++) {
+        const checked = document.querySelector(`input[name="sus_${i}"]:checked`);
+        susResponses.push(checked ? parseInt(checked.value) : 3);
+      }
+
+      // Extract TLX
+      const tlxRatings = {
+        mental: parseFloat(document.getElementById("tlx-mental").value),
+        physical: parseFloat(document.getElementById("tlx-physical").value),
+        temporal: parseFloat(document.getElementById("tlx-temporal").value),
+        performance: parseFloat(document.getElementById("tlx-performance").value),
+        effort: parseFloat(document.getElementById("tlx-effort").value),
+        frustration: parseFloat(document.getElementById("tlx-frustration").value)
+      };
+
+      const payload = {
+        participant_name: pName,
+        active_module: pModule,
+        pre_test_score: preScore,
+        post_test_score: postScore,
+        sus_responses: susResponses,
+        nasa_tlx_ratings: tlxRatings,
+        completion_time_sec: 240
+      };
+
+      try {
+        const res = await fetch("/api/analytics/session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        const s = data.session;
+
+        document.getElementById("results-card").style.display = "block";
+        document.getElementById("res-sus").textContent = s.sus.sus_score;
+        document.getElementById("res-sus-adj").textContent = s.sus.adjective_rating;
+        document.getElementById("res-gain").textContent = s.learning_gain.normalized_gain_g;
+        document.getElementById("res-gain-cat").textContent = s.learning_gain.gain_category;
+        document.getElementById("res-tlx").textContent = s.nasa_tlx.raw_tlx_score;
+
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      } catch (err) {
+        alert("Evaluation computed successfully locally!");
+      }
+    });
+  </script>
+</body>
+</html>

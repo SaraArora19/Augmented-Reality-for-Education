@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Education — Printable Marker Flashcards (A4 Sheets)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1e3c72;
+      --accent: #2a5298;
+      --text: #1f2937;
+      --bg: #f3f4f6;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .print-controls {
+      background: #1e293b;
+      color: white;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .print-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.2s ease;
+    }
+    .print-btn:hover {
+      background: #2563eb;
+    }
+    .back-btn {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    .back-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .intro-card {
+      background: white;
+      padding: 24px 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    .intro-card h1 {
+      color: #1e3c72;
+      margin-bottom: 8px;
+      font-size: 24px;
+    }
+    .authors {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 14px;
+    }
+
+    /* Flashcard Grid */
+    .flashcard-page {
+      background: white;
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      border: 1px solid #e2e8f0;
+      page-break-inside: avoid;
+    }
+
+    .marker-frame-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .marker-svg-box {
+      width: 260px;
+      height: 260px;
+      background: white;
+      border: 8px solid black;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .marker-id-badge {
+      margin-top: 10px;
+      background: #0f172a;
+      color: #38bdf8;
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 6px;
+    }
+    .scan-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .module-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+    .tag-anatomy { background: #fee2e2; color: #b91c1c; }
+    .tag-mechanics { background: #fef3c7; color: #b45309; }
+    .tag-biology { background: #dcfce7; color: #15803d; }
+    .tag-geometry { background: #e0e7ff; color: #4338ca; }
+    .tag-chemistry { background: #f3e8ff; color: #7e22ce; }
+
+    .card-title {
+      font-size: 22px;
+      color: #0f172a;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .objectives-list {
+      margin-left: 20px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      color: #334155;
+    }
+    .objectives-list li {
+      margin-bottom: 4px;
+    }
+    .facts-box {
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 14px;
+    }
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
+      font-size: 12px;
+    }
+    .component-pill {
+      background: #f1f5f9;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+    }
+    .component-pill strong {
+      color: #0f172a;
+    }
+
+    /* Print Stylesheet for Physical A4 Media */
+    @media print {
+      body {
+        background: white;
+      }
+      .print-controls, .intro-card {
+        display: none !important;
+      }
+      .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      .flashcard-page {
+        box-shadow: none;
+        border: 2px solid #cbd5e1;
+        margin-bottom: 0;
+        page-break-after: always;
+        height: 98vh;
+        padding: 20mm;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls Bar -->
+  <header class="print-controls">
+    <div>
+      <strong>AR Educational Flashcards (Printable Media)</strong>
+      <span style="opacity: 0.7; margin-left: 12px; font-size: 13px;">Format: A4 Printable Sheets & Mobile Display</span>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <a href="/" class="back-btn"><i class="fas fa-cube"></i> Open WebAR App</a>
+      <button onclick="window.print()" class="print-btn"><i class="fas fa-print"></i> Print Flashcards (A4)</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="intro-card">
+      <h1>Augmented Reality-Based HCI for Education — Marker Media Library</h1>
+      <p class="authors">Team: <strong>Radhika Agrawal (23BCE5021)</strong> & <strong>Sara Arora (23BCE5036)</strong> | Course: Human-Computer Interaction</p>
+      <p style="font-size: 14px; color: #475569;">
+        Each flashcard below serves as an optical image marker. You can print these sheets on physical A4 paper, or simply display them on your smartphone, tablet, or secondary screen. Point your camera from the <strong>WebAR app</strong> or <strong>Unity Android app</strong> at the high-contrast bordered square to trigger real-time 3D models, voice narration, and the 5-question quiz!
+      </p>
+    </div>
+
+    <!-- MARKER 1: HUMAN HEART -->
+    <div class="flashcard-page" id="card-heart">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <!-- Unique High-Contrast Tracking Pattern -->
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <!-- Outer anchor corners -->
+            <rect x="35" y="35" width="30" height="30" fill="#000000" />
+            <rect x="135" y="35" width="30" height="30" fill="#000000" />
+            <rect x="35" y="135" width="30" height="30" fill="#000000" />
+            <circle cx="150" cy="150" r="15" fill="#000000" />
+            <!-- Anatomic Heart Emblem Pattern -->
+            <path d="M 100 65 C 80 40, 50 65, 100 120 C 150 65, 120 40, 100 65 Z" fill="#b91c1c" />
+            <circle cx="100" cy="85" r="8" fill="#ffffff" />
+            <rect x="90" y="135" width="20" height="20" fill="#000000" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_heart</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-anatomy">Human Anatomy</span>
+          <h2 class="card-title">The Human Heart (Cardiovascular System)</h2>
+          <ul class="objectives-list">
+            <li>Identify the four chambers (Right/Left Atrium and Ventricles).</li>
+            <li>Understand systemic vs. pulmonary blood circulation.</li>
+            <li>Explain the role of cardiac valves in ensuring unidirectional flow.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> The left ventricle has a thick muscular myocardium required to pump oxygenated blood at high pressure into systemic circulation through the aorta.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Right Atrium:</strong> Receives deox blood</div>
+          <div class="component-pill"><strong>Right Ventricle:</strong> Pumps to lungs</div>
+          <div class="component-pill"><strong>Left Atrium:</strong> Receives oxy blood</div>
+          <div class="component-pill"><strong>Left Ventricle:</strong> Pumps to systemic aorta</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 2: HUMAN BRAIN -->
+    <div class="flashcard-page" id="card-brain">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <rect x="35" y="35" width="30" height="30" fill="#000000" />
+            <circle cx="150" cy="50" r="15" fill="#000000" />
+            <rect x="135" y="135" width="30" height="30" fill="#000000" />
+            <rect x="35" y="135" width="30" height="30" fill="#000000" />
+            <!-- Brain Pattern -->
+            <path d="M 65 100 C 65 70, 135 70, 135 100 C 135 125, 65 125, 65 100 Z" fill="#6366f1" />
+            <path d="M 85 100 Q 100 80 115 100 Q 100 120 85 100" fill="#ffffff" />
+            <circle cx="100" cy="100" r="6" fill="#000000" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_brain</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-anatomy">Human Anatomy</span>
+          <h2 class="card-title">The Human Brain (Central Nervous System)</h2>
+          <ul class="objectives-list">
+            <li>Distinguish the cerebrum, cerebellum, and brainstem.</li>
+            <li>Identify functional specialization of frontal, parietal, temporal, and occipital lobes.</li>
+            <li>Understand involuntary autonomic regulation in the brainstem.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> The brain consumes 20% of resting oxygen and glucose despite representing only 2% of total body mass. The cerebellum coordinates voluntary balance and motor timing.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Frontal Lobe:</strong> Executive function</div>
+          <div class="component-pill"><strong>Occipital Lobe:</strong> Visual processing</div>
+          <div class="component-pill"><strong>Cerebellum:</strong> Motor balance</div>
+          <div class="component-pill"><strong>Brainstem:</strong> Vitals & breathing</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 3: FOUR-STROKE ENGINE -->
+    <div class="flashcard-page" id="card-engine">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <rect x="35" y="35" width="28" height="28" fill="#000000" />
+            <rect x="137" y="35" width="28" height="28" fill="#000000" />
+            <circle cx="50" cy="150" r="14" fill="#000000" />
+            <rect x="137" y="137" width="28" height="28" fill="#000000" />
+            <!-- Piston Cylinder Graphic -->
+            <rect x="80" y="55" width="40" height="50" fill="#d97706" />
+            <line x1="100" y1="105" x2="100" y2="145" stroke="#000000" stroke-width="8" />
+            <circle cx="100" cy="145" r="12" fill="#d97706" />
+            <polygon points="100,50 95,65 105,65" fill="#ef4444" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_engine</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-mechanics">Mechanics & Physics</span>
+          <h2 class="card-title">Four-Stroke IC Engine (Otto Cycle)</h2>
+          <ul class="objectives-list">
+            <li>Identify the four strokes: Intake, Compression, Power, and Exhaust.</li>
+            <li>Observe piston reciprocation translating into crankshaft rotational torque.</li>
+            <li>Understand that 2 complete crankshaft turns (720°) produce 1 power stroke.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> The flywheel preserves angular momentum across idle strokes (intake, compression, exhaust) to ensure steady rotational speed.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Piston:</strong> Thermal gas expansion</div>
+          <div class="component-pill"><strong>Connecting Rod:</strong> Linear-rotary link</div>
+          <div class="component-pill"><strong>Crankshaft:</strong> Rotary torque output</div>
+          <div class="component-pill"><strong>Spark Plug:</strong> Air-fuel ignition</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 4: DC MOTOR -->
+    <div class="flashcard-page" id="card-motor">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <circle cx="50" cy="50" r="14" fill="#000000" />
+            <rect x="135" y="35" width="30" height="30" fill="#000000" />
+            <circle cx="150" cy="150" r="14" fill="#000000" />
+            <rect x="35" y="135" width="30" height="30" fill="#000000" />
+            <!-- Motor Rotor Diagram -->
+            <rect x="50" y="85" width="25" height="30" fill="#ef4444" />
+            <rect x="125" y="85" width="25" height="30" fill="#3b82f6" />
+            <circle cx="100" cy="100" r="22" fill="#fbbf24" stroke="#000" stroke-width="3" />
+            <line x1="85" y1="100" x2="115" y2="100" stroke="#000" stroke-width="4" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_motor</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-mechanics">Mechanics & Physics</span>
+          <h2 class="card-title">DC Electric Motor (Electromagnetism)</h2>
+          <ul class="objectives-list">
+            <li>Demonstrate Lorentz force on current-carrying wire: F = I(L x B).</li>
+            <li>Analyze how the split-ring commutator reverses current to sustain continuous rotation.</li>
+            <li>Apply Fleming's Left-Hand Rule for magnetic thrust direction.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> Without the split-ring commutator, the rotating coil would stall vertically at equilibrium. The commutator reverses coil polarity every 180°.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Permanent Stator:</strong> Magnetic B-field</div>
+          <div class="component-pill"><strong>Armature Coil:</strong> Current conductor</div>
+          <div class="component-pill"><strong>Commutator:</strong> Polarity reverser</div>
+          <div class="component-pill"><strong>Carbon Brushes:</strong> Sliding power feed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 5: PLANT CELL -->
+    <div class="flashcard-page" id="card-plantcell">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <rect x="35" y="35" width="30" height="30" fill="#000000" />
+            <rect x="135" y="35" width="30" height="30" fill="#000000" />
+            <rect x="135" y="135" width="30" height="30" fill="#000000" />
+            <circle cx="50" cy="150" r="14" fill="#000000" />
+            <!-- Hexagonal Plant Cell -->
+            <polygon points="100,55 140,75 140,125 100,145 60,125 60,75" fill="#15803d" />
+            <polygon points="100,62 133,79 133,121 100,138 67,121 67,79" fill="#86efac" />
+            <circle cx="100" cy="100" r="14" fill="#3b82f6" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_plantcell</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-biology">Plant Biology</span>
+          <h2 class="card-title">Plant Cell Ultrastructure</h2>
+          <ul class="objectives-list">
+            <li>Distinguish cellulose cell wall, chloroplasts, and large central vacuole.</li>
+            <li>Understand hydrostatic turgor pressure and structural rigidity.</li>
+            <li>Examine intracellular organelle compartmentalization.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> The central vacuole stores water and applies outward pressure against the rigid cell wall. Loss of water drops turgor pressure, leading to wilting.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Cell Wall:</strong> Cellulose tensile support</div>
+          <div class="component-pill"><strong>Chloroplast:</strong> Photosynthesis site</div>
+          <div class="component-pill"><strong>Central Vacuole:</strong> Turgor regulator</div>
+          <div class="component-pill"><strong>Nucleus:</strong> Genetic directive</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 6: PLATONIC SOLIDS -->
+    <div class="flashcard-page" id="card-polyhedra">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <circle cx="50" cy="50" r="14" fill="#000000" />
+            <circle cx="150" cy="50" r="14" fill="#000000" />
+            <rect x="35" y="135" width="30" height="30" fill="#000000" />
+            <rect x="135" y="135" width="30" height="30" fill="#000000" />
+            <!-- Icosahedron / Polyhedron Lines -->
+            <polygon points="100,50 145,80 145,130 100,155 55,130 55,80" fill="none" stroke="#4338ca" stroke-width="4" />
+            <polygon points="100,75 130,95 130,120 100,135 70,120 70,95" fill="#c7d2fe" stroke="#4338ca" stroke-width="2" />
+            <line x1="100" y1="50" x2="100" y2="75" stroke="#4338ca" stroke-width="3" />
+            <line x1="145" y1="80" x2="130" y2="95" stroke="#4338ca" stroke-width="3" />
+            <line x1="145" y1="130" x2="130" y2="120" stroke="#4338ca" stroke-width="3" />
+            <line x1="100" y1="155" x2="100" y2="135" stroke="#4338ca" stroke-width="3" />
+            <line x1="55" y1="130" x2="70" y2="120" stroke="#4338ca" stroke-width="3" />
+            <line x1="55" y1="80" x2="70" y2="95" stroke="#4338ca" stroke-width="3" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_polyhedra</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-geometry">3D Geometry</span>
+          <h2 class="card-title">Platonic Solids & Spatial Polyhedra</h2>
+          <ul class="objectives-list">
+            <li>Verify Euler's characteristic formula V - E + F = 2.</li>
+            <li>Explore the 5 regular convex polyhedra in 3D Euclidean space.</li>
+            <li>Inspect vertices, edges, face symmetry, and dual polyhedral pairings.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> For an icosahedron: 12 Vertices - 30 Edges + 20 Faces = 2. The regular octahedron is the topological geometric dual of the cube.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Vertices (V):</strong> Coordinate intersections</div>
+          <div class="component-pill"><strong>Edges (E):</strong> Linear polygon boundaries</div>
+          <div class="component-pill"><strong>Faces (F):</strong> Enclosing 2D regular planes</div>
+          <div class="component-pill"><strong>Euler Invariant:</strong> V - E + F = 2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 7: DNA HELIX -->
+    <div class="flashcard-page" id="card-dna">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <rect x="35" y="35" width="28" height="28" fill="#000000" />
+            <circle cx="150" cy="50" r="14" fill="#000000" />
+            <circle cx="50" cy="150" r="14" fill="#000000" />
+            <rect x="137" y="137" width="28" height="28" fill="#000000" />
+            <!-- DNA Helix Wave -->
+            <path d="M 70 50 Q 100 80 130 110 Q 100 140 70 170" fill="none" stroke="#7e22ce" stroke-width="5" />
+            <path d="M 130 50 Q 100 80 70 110 Q 100 140 130 170" fill="none" stroke="#3b82f6" stroke-width="5" />
+            <line x1="80" y1="65" x2="120" y2="65" stroke="#ef4444" stroke-width="4" />
+            <line x1="85" y1="110" x2="115" y2="110" stroke="#10b981" stroke-width="4" />
+            <line x1="80" y1="155" x2="120" y2="155" stroke="#f59e0b" stroke-width="4" />
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_dna</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-chemistry">Chemistry</span>
+          <h2 class="card-title">DNA Double Helix (Macromolecular Structure)</h2>
+          <ul class="objectives-list">
+            <li>Identify Watson-Crick base pairing: Adenine-Thymine (2 H-bonds) & Guanine-Cytosine (3 H-bonds).</li>
+            <li>Understand antiparallel 5' to 3' strand orientation.</li>
+            <li>Observe major and minor grooves crucial for protein binding.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> Guanine-Cytosine base pairs possess three hydrogen bonds compared to Adenine-Thymine's two, yielding higher thermal denaturation resistance.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Backbone:</strong> Sugar-phosphate diester</div>
+          <div class="component-pill"><strong>A-T Pair:</strong> 2 Hydrogen bonds</div>
+          <div class="component-pill"><strong>G-C Pair:</strong> 3 Hydrogen bonds</div>
+          <div class="component-pill"><strong>Pitch:</strong> 10.5 base pairs / turn</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKER 8: WATER MOLECULE -->
+    <div class="flashcard-page" id="card-water">
+      <div class="marker-frame-container">
+        <div class="marker-svg-box">
+          <svg viewBox="0 0 200 200" width="100%" height="100%">
+            <rect width="200" height="200" fill="#000000" />
+            <rect x="20" y="20" width="160" height="160" fill="#ffffff" />
+            <circle cx="50" cy="50" r="14" fill="#000000" />
+            <circle cx="150" cy="50" r="14" fill="#000000" />
+            <circle cx="150" cy="150" r="14" fill="#000000" />
+            <rect x="35" y="135" width="30" height="30" fill="#000000" />
+            <!-- Water VSEPR geometry -->
+            <circle cx="100" cy="85" r="24" fill="#ef4444" />
+            <line x1="100" y1="85" x2="65" y2="135" stroke="#94a3b8" stroke-width="6" />
+            <line x1="100" y1="85" x2="135" y2="135" stroke="#94a3b8" stroke-width="6" />
+            <circle cx="65" cy="135" r="14" fill="#38bdf8" />
+            <circle cx="135" cy="135" r="14" fill="#38bdf8" />
+            <text x="90" y="92" fill="#ffffff" font-weight="bold" font-size="16">O</text>
+            <text x="59" y="141" fill="#ffffff" font-weight="bold" font-size="14">H</text>
+            <text x="129" y="141" fill="#ffffff" font-weight="bold" font-size="14">H</text>
+          </svg>
+        </div>
+        <div class="marker-id-badge">TARGET ID: marker_water</div>
+        <div class="scan-hint"><i class="fas fa-camera"></i> Point AR Camera here</div>
+      </div>
+      <div class="content-container">
+        <div>
+          <span class="module-tag tag-chemistry">Chemistry</span>
+          <h2 class="card-title">Water Molecule (H2O Polarity & VSEPR)</h2>
+          <ul class="objectives-list">
+            <li>Explain the bent molecular geometry (104.5° bond angle).</li>
+            <li>Analyze sp3 orbital hybridization with two non-bonding lone pairs on oxygen.</li>
+            <li>Explore dipole polarity and intermolecular hydrogen bonding.</li>
+          </ul>
+          <div class="facts-box">
+            <strong>Key Mechanism:</strong> Strong lone pair-lone pair electrostatic repulsion compresses the ideal 109.5° tetrahedral angle to 104.5°, creating a powerful molecular dipole moment.
+          </div>
+        </div>
+        <div class="components-grid">
+          <div class="component-pill"><strong>Central Oxygen:</strong> Electronegative hub</div>
+          <div class="component-pill"><strong>Hydrogens:</strong> Partial positive charges</div>
+          <div class="component-pill"><strong>Bond Angle:</strong> 104.5 degrees</div>
+          <div class="component-pill"><strong>Network:</strong> Hydrogen bonding lattice</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

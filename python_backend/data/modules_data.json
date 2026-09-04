@@ -1,0 +1,820 @@
+{
+  "modules": [
+    {
+      "id": "anatomy",
+      "name": "Human Anatomy & Physiology",
+      "icon": "fas fa-heartbeat",
+      "description": "Explore internal biological structures of the human body in interactive 3D.",
+      "markers": [
+        {
+          "id": "marker_heart",
+          "name": "The Human Heart",
+          "category": "Cardiovascular System",
+          "learning_objectives": [
+            "Identify the four chambers of the human heart (atria and ventricles).",
+            "Understand the systemic and pulmonary circulatory pathways.",
+            "Explain the role of cardiac valves (tricuspid, bicuspid/mitral, aortic, pulmonary) in unidirectional blood flow."
+          ],
+          "voice_narration": "Welcome to the Human Heart exploration. The heart is a muscular organ about the size of a closed fist, pumping roughly 7,000 liters of blood each day through a sixty-thousand-kilometer network of vessels. Observe the right atrium and right ventricle, which manage deoxygenated blood heading to the lungs, while the left atrium and left ventricle propel oxygen-rich blood into the aorta and the rest of the body.",
+          "key_facts": [
+            "A healthy adult heart beats approximately 60 to 100 times per minute at rest.",
+            "The left ventricle has much thicker myocardium because it must generate high pressure to pump blood throughout the entire body.",
+            "Valves prevent backflow, maintaining efficient unidirectional hemodynamic flow."
+          ],
+          "components": [
+            {"name": "Right Atrium", "function": "Receives deoxygenated blood from the superior and inferior venae cavae."},
+            {"name": "Right Ventricle", "function": "Pumps deoxygenated blood through the pulmonary trunk into pulmonary arteries to the lungs."},
+            {"name": "Left Atrium", "function": "Receives oxygenated blood returning from the lungs via pulmonary veins."},
+            {"name": "Left Ventricle", "function": "Possesses thick muscular wall; pumps oxygenated blood into systemic circulation via the aorta."},
+            {"name": "Aorta", "function": "The largest artery in the body, branching out to supply oxygenated blood to all tissues."}
+          ],
+          "quiz": [
+            {
+              "question": "Which chamber of the human heart pumps oxygenated blood into the aorta?",
+              "options": ["Right Atrium", "Right Ventricle", "Left Atrium", "Left Ventricle"],
+              "answer": 3,
+              "explanation": "The left ventricle contracts with high pressure to propel oxygenated blood into the aorta for systemic distribution."
+            },
+            {
+              "question": "Why is the muscular wall of the left ventricle significantly thicker than that of the right ventricle?",
+              "options": [
+                "It stores deoxygenated blood for longer periods",
+                "It must generate sufficient hydrostatic pressure to pump blood throughout the systemic circulation",
+                "It contains the sinoatrial pacemaker node",
+                "It protects the heart against chest impact"
+              ],
+              "answer": 1,
+              "explanation": "The systemic circuit offers much higher vascular resistance than the low-pressure pulmonary circuit, requiring greater ventricular wall thickness."
+            },
+            {
+              "question": "Which vessel delivers deoxygenated blood from the upper body into the right atrium?",
+              "options": ["Aorta", "Pulmonary Vein", "Superior Vena Cava", "Carotid Artery"],
+              "answer": 2,
+              "explanation": "The superior vena cava drains blood from the head, neck, upper limbs, and thoracic cavity into the right atrium."
+            },
+            {
+              "question": "What is the primary physiological purpose of cardiac valves?",
+              "options": [
+                "To accelerate heart rate during exercise",
+                "To prevent backflow of blood and maintain unidirectional circulation",
+                "To filter pathogens from myocardial tissue",
+                "To produce hemoglobin for oxygen binding"
+              ],
+              "answer": 1,
+              "explanation": "Cardiac valves open and close in response to pressure differentials, ensuring unidirectional blood flow through chambers and arteries."
+            },
+            {
+              "question": "Where does blood travel immediately after leaving the right ventricle?",
+              "options": ["Aorta", "Pulmonary Arteries to the Lungs", "Coronary Sinus", "Left Ventricle"],
+              "answer": 1,
+              "explanation": "Contraction of the right ventricle forces deoxygenated blood past the pulmonary valve into the pulmonary trunk and arteries toward the lungs."
+            }
+          ]
+        },
+        {
+          "id": "marker_brain",
+          "name": "The Human Brain",
+          "category": "Central Nervous System",
+          "learning_objectives": [
+            "Distinguish the primary anatomical regions: cerebrum, cerebellum, and brainstem.",
+            "Identify the functional specialization of the four cerebral lobes.",
+            "Describe the life-sustaining autonomic functions regulated by the brainstem."
+          ],
+          "voice_narration": "You are examining the human brain, the master control unit of the central nervous system. Containing approximately 86 billion neurons, it is divided into the cerebral hemispheres, the cerebellum, and the brainstem. The cerebral cortex processes sensory input, speech, memory, and executive decision making.",
+          "key_facts": [
+            "The brain accounts for only about 2% of total body mass, yet consumes approximately 20% of the body's oxygen and caloric energy.",
+            "The cerebellum contains over half of all neurons in the entire brain despite occupying only 10% of its volume.",
+            "The brainstem controls involuntary vital signs including heart rate, respiration, and blood pressure."
+          ],
+          "components": [
+            {"name": "Frontal Lobe", "function": "Executive reasoning, motor control, emotional regulation, and expressive speech."},
+            {"name": "Parietal Lobe", "function": "Somatosensory integration, tactile perception, and spatial awareness."},
+            {"name": "Temporal Lobe", "function": "Auditory processing, language comprehension (Wernicke's area), and memory consolidation."},
+            {"name": "Occipital Lobe", "function": "Visual processing and spatial visual mapping."},
+            {"name": "Cerebellum", "function": "Motor coordination, postural equilibrium, and fine precision timing."}
+          ],
+          "quiz": [
+            {
+              "question": "Which cerebral lobe is primarily dedicated to the processing of visual stimuli?",
+              "options": ["Frontal Lobe", "Temporal Lobe", "Occipital Lobe", "Parietal Lobe"],
+              "answer": 2,
+              "explanation": "The occipital lobe houses the primary visual cortex (Brodmann area 17), which receives and interprets retinotopic visual signals."
+            },
+            {
+              "question": "A student struggles with balance and fine motor coordination after an injury. Which brain structure is most likely affected?",
+              "options": ["Cerebellum", "Frontal Lobe", "Medulla Oblongata", "Hypothalamus"],
+              "answer": 0,
+              "explanation": "The cerebellum coordinates voluntary muscle movements, posture, balance, and precision motor calibration."
+            },
+            {
+              "question": "Which region of the central nervous system directly regulates involuntary autonomic vitals like breathing and cardiac rhythm?",
+              "options": ["Corpus Callosum", "Brainstem", "Thalamus", "Hippocampus"],
+              "answer": 1,
+              "explanation": "The brainstem (midbrain, pons, and medulla oblongata) governs essential life support functions including respiration and vasoconstriction."
+            },
+            {
+              "question": "Where is expressive speech production (Broca's area) predominantly located in most individuals?",
+              "options": ["Left Frontal Lobe", "Right Occipital Lobe", "Left Temporal Lobe", "Cerebellar cortex"],
+              "answer": 0,
+              "explanation": "Broca's area is situated in the inferior frontal gyrus of the left cerebral hemisphere, crucial for speech articulation."
+            },
+            {
+              "question": "Roughly what percentage of the body's total resting energy does the adult human brain consume?",
+              "options": ["2%", "10%", "20%", "45%"],
+              "answer": 2,
+              "explanation": "Despite accounting for ~2% of body mass, the brain requires ~20% of resting glucose and oxygen supplies."
+            }
+          ]
+        },
+        {
+          "id": "marker_eye",
+          "name": "The Human Eye",
+          "category": "Sensory Biology",
+          "learning_objectives": [
+            "Explain how the cornea and crystalline lens refract light onto the photoreceptive retina.",
+            "Contrast the physiological roles of retinal rods (scotopic vision) and cones (photopic color vision).",
+            "Trace visual signal transduction from the retina via the optic nerve to the brain."
+          ],
+          "voice_narration": "Examining the optical structure of the human eye. Light passes through the transparent cornea and pupil, is refracted by the crystalline lens, and forms an inverted real image upon the photoreceptor layer of the retina.",
+          "key_facts": [
+            "The cornea provides about two-thirds of the eye's total optical refractive power.",
+            "The fovea centralis contains tightly packed cone cells providing maximum visual acuity and color discrimination.",
+            "Rods outnumber cones by roughly 20 to 1, facilitating low-light monochromatic vision."
+          ],
+          "components": [
+            {"name": "Cornea", "function": "Clear anterior surface providing initial fixed optical refraction."},
+            {"name": "Iris & Pupil", "function": "Aperture mechanism controlling amount of incident light reaching the retina."},
+            {"name": "Crystalline Lens", "function": "Dynamic optical lens capable of accommodation for near and far focal distances."},
+            {"name": "Retina", "function": "Neurosensory tissue containing rods and cones that transduce photons into electrical action potentials."},
+            {"name": "Optic Nerve", "function": "Cranial nerve II transmitting visual sensory impulses to the visual cortex."}
+          ],
+          "quiz": [
+            {
+              "question": "Which photoreceptor cell type in the human retina is responsible for high-acuity color vision in bright light?",
+              "options": ["Rods", "Cones", "Ganglion Cells", "Bipolar Cells"],
+              "answer": 1,
+              "explanation": "Cones operate in daylight (photopic) conditions and provide chromatic sensitivity through trichromatic photopigments."
+            },
+            {
+              "question": "What optical process allows the crystalline lens to change its curvature to focus on objects at varying distances?",
+              "options": ["Accommodation", "Reflection", "Fluorescence", "Diffraction"],
+              "answer": 0,
+              "explanation": "Accommodation is the mechanism where the ciliary muscle alters lens tension to adjust focal length."
+            },
+            {
+              "question": "Where on the retina is visual acuity the sharpest, containing the highest density of cones?",
+              "options": ["Optic Disc", "Fovea Centralis", "Peripheral Retina", "Ciliary Body"],
+              "answer": 1,
+              "explanation": "The fovea centralis is a small pit in the macula lutea packed with cones, yielding the highest resolving power."
+            },
+            {
+              "question": "Why does the 'blind spot' exist where the optic nerve exits the posterior ocular wall?",
+              "options": [
+                "Blood vessels block light absorption",
+                "There are no photoreceptor cells (rods or cones) at the optic disc",
+                "The sclera is transparent in that zone",
+                "Melanin pigments neutralize neural signals"
+              ],
+              "answer": 1,
+              "explanation": "The optic disc contains no photoreceptors because axons converge here to exit as the optic nerve, creating a physiological blind spot."
+            },
+            {
+              "question": "Which component provides the majority (approximately two-thirds) of the eye's optical focusing power?",
+              "options": ["Retina", "Vitreous Humor", "Cornea", "Iris"],
+              "answer": 2,
+              "explanation": "The refractive index transition from ambient air into the curved cornea provides roughly 40-44 diopters of refractive power."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mechanics",
+      "name": "Mechanics & Physics",
+      "icon": "fas fa-cogs",
+      "description": "Understand thermodynamic, electromagnetic, and kinematic machines in 3D.",
+      "markers": [
+        {
+          "id": "marker_engine",
+          "name": "Four-Stroke IC Engine",
+          "category": "Thermodynamics & Automotive",
+          "learning_objectives": [
+            "Identify the four strokes of the Otto internal combustion cycle: Intake, Compression, Power, and Exhaust.",
+            "Observe the synchronized mechanical relationship between the piston, connecting rod, and crankshaft.",
+            "Understand how chemical fuel energy is converted into rotational mechanical work."
+          ],
+          "voice_narration": "Witnessing the internal combustion four-stroke Otto cycle engine. Piston reciprocation within the cylinder drives rotational motion through the connecting rod and crankshaft. Observe the coordinated intake of the air-fuel mixture, compression, ignition sparking that drives the power stroke, and scavenging of exhaust gases.",
+          "key_facts": [
+            "A complete four-stroke cycle requires two full crankshaft revolutions (720 degrees) for every one power stroke.",
+            "Thermal efficiency of modern gasoline four-stroke engines ranges between 25% and 38%.",
+            "The flywheel stores angular momentum during the power stroke to maintain smooth rotation during the other three strokes."
+          ],
+          "components": [
+            {"name": "Piston", "function": "Transfers high-pressure gas expansion force downward inside the cylinder."},
+            {"name": "Connecting Rod", "function": "Bridges linear piston motion to the rotational crankshaft journal."},
+            {"name": "Crankshaft", "function": "Converts reciprocating linear work into useful continuous rotational torque."},
+            {"name": "Spark Plug", "function": "Ignites the compressed air-fuel mixture at top dead center with high voltage electric arc."},
+            {"name": "Valves (Intake/Exhaust)", "function": "Cam-timed poppet valves admitting charge air and releasing burnt gases."}
+          ],
+          "quiz": [
+            {
+              "question": "How many complete crankshaft revolutions occur during one complete four-stroke Otto engine cycle?",
+              "options": ["One revolution (360°)", "Two revolutions (720°)", "Four revolutions (1440°)", "Half a revolution (180°)"],
+              "answer": 1,
+              "explanation": "Each stroke occupies 180 degrees of crank angle rotation, so 4 strokes equal 720 degrees (2 complete revolutions)."
+            },
+            {
+              "question": "During which stroke is positive mechanical work produced by gas expansion?",
+              "options": ["Intake Stroke", "Compression Stroke", "Power (Combustion) Stroke", "Exhaust Stroke"],
+              "answer": 2,
+              "explanation": "Ignition of the compressed air-fuel charge causes rapid thermal expansion, driving the piston downward to deliver work."
+            },
+            {
+              "question": "What is the primary role of the engine flywheel?",
+              "options": [
+                "To cool engine oil",
+                "To store kinetic energy to smooth out torque fluctuations between power strokes",
+                "To ignite the fuel mixture",
+                "To increase electrical spark voltage"
+              ],
+              "answer": 1,
+              "explanation": "Because work is only generated during the power stroke, the flywheel's moment of inertia carries the crankshaft smoothly through the idle strokes."
+            },
+            {
+              "question": "At what point in the cylinder cycle does spark ignition typically occur?",
+              "options": [
+                "Near Top Dead Center (TDC) of the compression stroke",
+                "At Bottom Dead Center (BDC) of the intake stroke",
+                "Midway through the exhaust stroke",
+                "Continuously throughout the cycle"
+              ],
+              "answer": 0,
+              "explanation": "Ignition occurs just prior to or at Top Dead Center of the compression stroke to allow flame front propagation."
+            },
+            {
+              "question": "Which mechanical component converts the linear reciprocating motion of the piston into rotary motion?",
+              "options": ["Camshaft", "Piston Ring", "Crankshaft", "Carburetor"],
+              "answer": 2,
+              "explanation": "The crankshaft, coupled via connecting rods, translates reciprocating translation into rotational torque."
+            }
+          ]
+        },
+        {
+          "id": "marker_motor",
+          "name": "DC Electric Motor",
+          "category": "Electromagnetism",
+          "learning_objectives": [
+            "Demonstrate the Lorentz magnetic force equation F = I(L x B) acting upon a current-carrying rotor coil.",
+            "Explain the mechanical role of split-ring commutators and carbon brushes in maintaining unidirectional torque.",
+            "Understand Fleming's Left-Hand Rule for determining rotational direction."
+          ],
+          "voice_narration": "This 3D model illustrates a Direct Current electric motor. When direct current flows through the armature coil placed between opposite magnetic poles, equal and opposite Lorentz forces create a turning moment. The split-ring commutator reverses current flow every half turn to sustain continuous rotation.",
+          "key_facts": [
+            "Fleming's Left-Hand Rule correlates Thumb (Motion/Force), First finger (Field B), and Second finger (Current I).",
+            "Without the split-ring commutator, the coil would merely oscillate and come to rest aligned with the magnetic field.",
+            "Back-EMF (electromotive force) generated by coil rotation opposes the supply voltage in accordance with Lenz's Law."
+          ],
+          "components": [
+            {"name": "Permanent Magnets (Stator)", "function": "Establishes a stationary magnetic flux field across the rotor cavity."},
+            {"name": "Armature Coil (Rotor)", "function": "Copper winding carrying current that experiences electromagnetic Lorentz torque."},
+            {"name": "Split-Ring Commutator", "function": "Reverses the direction of electric current in the coil every 180 degrees of rotation."},
+            {"name": "Carbon Brushes", "function": "Maintains sliding electrical contact between the external DC supply and the spinning commutator."},
+            {"name": "Rotor Shaft", "function": "Outputs the resultant mechanical shaft work to the external load."}
+          ],
+          "quiz": [
+            {
+              "question": "What fundamental physical force causes the armature coil of a DC motor to turn?",
+              "options": ["Gravitational force", "Lorentz magnetic force on moving charge carriers", "Capacitive displacement", "Centrifugal force"],
+              "answer": 1,
+              "explanation": "A current-carrying conductor in a magnetic field experiences a magnetic Lorentz force orthogonal to both current and magnetic flux lines."
+            },
+            {
+              "question": "What is the crucial function of the split-ring commutator in a DC motor?",
+              "options": [
+                "To increase battery voltage",
+                "To periodically reverse current direction in the coil to maintain continuous unidirectional torque",
+                "To prevent mechanical friction",
+                "To magnetize the iron stator poles"
+              ],
+              "answer": 1,
+              "explanation": "By reversing current direction every half revolution, the magnetic torque continues in the same rotational sense."
+            },
+            {
+              "question": "According to Fleming's Left-Hand Rule for motors, what does the index (first) finger represent?",
+              "options": ["Electric Current direction", "Magnetic Field direction (B)", "Motion/Thrust direction", "Induced voltage"],
+              "answer": 1,
+              "explanation": "First finger = Field, Second finger = Current, Thumb = Motion/Force."
+            },
+            {
+              "question": "What phenomenon naturally opposes the input voltage as motor rotational speed increases?",
+              "options": ["Static friction", "Back Electromotive Force (Back-EMF)", "Thermal insulation", "Dielectric breakdown"],
+              "answer": 1,
+              "explanation": "Faraday's Law dictates that the spinning coil cuts magnetic field lines, generating a counter-EMF opposing the supply current."
+            },
+            {
+              "question": "If you reverse BOTH the direction of the magnetic field AND the direction of the current, what happens to motor rotation?",
+              "options": [
+                "Rotation reverses direction",
+                "The motor stops immediately",
+                "Rotation continues in the original direction",
+                "The motor spins at twice the speed"
+              ],
+              "answer": 2,
+              "explanation": "Reversing two perpendicular vector inputs produces the same vector cross-product direction: (-I) x (-B) = +(I x B)."
+            }
+          ]
+        },
+        {
+          "id": "marker_gears",
+          "name": "Planetary Gear System",
+          "category": "Mechanical Transmission",
+          "learning_objectives": [
+            "Identify the three core elements of epicyclic gearing: Sun gear, Planet gears with Carrier, and Ring (annulus) gear.",
+            "Understand how differing gear ratios produce high torque multiplication or speed overdrive in compact footprints.",
+            "Observe kinematics in automatic transmissions and aerospace drives."
+          ],
+          "voice_narration": "Examining an Epicyclic Planetary Gear Train. In this arrangement, central sun gear meshes with multiple orbiting planet gears, enclosed by an outer ring gear. Depending on which element is locked, driven, or outputted, the system provides high gear reductions, reverse drive, or direct drive.",
+          "key_facts": [
+            "Planetary gear trains distribute load across multiple gear teeth simultaneously, offering extremely high torque density.",
+            "Locking the ring gear and driving the sun gear results in maximum forward reduction with high output torque on the carrier.",
+            "Commonly utilized in hybrid automotive transmissions, wind turbines, and helicopter rotor drives."
+          ],
+          "components": [
+            {"name": "Sun Gear", "function": "Central drive pinion gear situated on the primary axis of rotation."},
+            {"name": "Planet Gears", "function": "Intermediate spur gears meshing simultaneously with sun and ring gears."},
+            {"name": "Planet Carrier", "function": "Structural frame holding planet gear shafts and transmitting unified carrier torque."},
+            {"name": "Ring Gear (Annulus)", "function": "Internally toothed ring enclosing the orbiting planet assembly."}
+          ],
+          "quiz": [
+            {
+              "question": "Which member of a planetary gearset sits at the center and rotates on the central axis?",
+              "options": ["Ring Gear", "Planet Carrier", "Sun Gear", "Countershaft"],
+              "answer": 2,
+              "explanation": "The sun gear occupies the central position around which the planets orbit."
+            },
+            {
+              "question": "Why are planetary gearsets preferred in heavy-duty transmissions over simple gear trains?",
+              "options": [
+                "They require zero lubrication",
+                "Load is shared across multiple planet gear teeth, yielding higher torque capacity in compact size",
+                "They can only operate in reverse",
+                "They have no moving parts"
+              ],
+              "answer": 1,
+              "explanation": "Multiple planet gears divide the transmitted torque across several simultaneous contact patches."
+            },
+            {
+              "question": "If the ring gear is held stationary and the sun gear is driven, what is the motion of the planet carrier?",
+              "options": [
+                "Rotates in the same direction as the sun gear at reduced speed",
+                "Rotates in opposite direction at accelerated speed",
+                "Remains stationary",
+                "Oscillates back and forth"
+              ],
+              "answer": 0,
+              "explanation": "Holding the ring gear produces forward gear reduction, rotating the carrier in the same sense as the sun gear with torque multiplication."
+            },
+            {
+              "question": "What is the outer internally-toothed gear called in an epicyclic gear system?",
+              "options": ["Spur pinion", "Annulus or Ring gear", "Worm gear", "Bevel gear"],
+              "answer": 1,
+              "explanation": "The outer ring gear, also known as the annulus, features internal gear teeth meshing with planets."
+            },
+            {
+              "question": "In what automotive subsystem are planetary gearsets most fundamentally applied?",
+              "options": ["Brake caliper pistons", "Automatic and hybrid transmission gearboxes", "Exhaust catalytic converter", "Spark timing distributor"],
+              "answer": 1,
+              "explanation": "Automatic transmissions use combinations of planetary gearsets to achieve variable gear ratios via hydraulic clutches and bands."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "biology",
+      "name": "Plant Biology & Botany",
+      "icon": "fas fa-seedling",
+      "description": "Discover botanical cellular structures, organelle functions, and reproductive anatomy.",
+      "markers": [
+        {
+          "id": "marker_plantcell",
+          "name": "Plant Cell Ultrastructure",
+          "category": "Cell Biology",
+          "learning_objectives": [
+            "Distinguish plant-specific organelles (cell wall, chloroplasts, large central vacuole) from animal cell counterparts.",
+            "Understand the cellulose cell wall's contribution to structural rigidity and turgor pressure maintenance.",
+            "Examine the compartmentalization of cellular metabolic processes."
+          ],
+          "voice_narration": "You are inside a eukaryotic plant cell. Notice the rigid external cellulose cell wall surrounding the plasma membrane, providing tensile strength against osmotic hydrostatic pressure. Within the cytoplasm, observe chloroplasts for photosynthesis, the central vacuole maintaining turgor pressure, and the nucleus housing genetic DNA.",
+          "key_facts": [
+            "The central vacuole can occupy up to 90% of the volume of a mature plant cell.",
+            "Chloroplasts contain their own circular DNA and 70S ribosomes, reflecting an endosymbiotic evolutionary origin.",
+            "Plasmodesmata are microscopic channels crossing cell walls that facilitate intercellular molecular transport."
+          ],
+          "components": [
+            {"name": "Cell Wall", "function": "Rigid cellulosic outer matrix providing structural protection and turgor support."},
+            {"name": "Chloroplasts", "function": "Double-membrane plastids performing photosynthetic carbon fixation."},
+            {"name": "Central Vacuole", "function": "Osmotic organelle storing water, nutrients, and maintaining hydrostatic turgor pressure."},
+            {"name": "Nucleus", "function": "Contains chromosomal chromatin and directs cellular transcription and enzymatic control."},
+            {"name": "Mitochondria", "function": "Sites of oxidative phosphorylation and cellular ATP bioenergetic synthesis."}
+          ],
+          "quiz": [
+            {
+              "question": "Which organelle is unique to plant cells and absent in animal cells?",
+              "options": ["Mitochondria", "Endoplasmic Reticulum", "Large Central Vacuole & Cell Wall", "Ribosomes"],
+              "answer": 2,
+              "explanation": "Plant cells possess a rigid cellulose cell wall, plastids/chloroplasts, and a large central vacuole not found in animal cells."
+            },
+            {
+              "question": "What primary structural polysaccharide constitutes the rigid plant cell wall?",
+              "options": ["Glycogen", "Cellulose", "Chitin", "Keratin"],
+              "answer": 1,
+              "explanation": "Cellulose, consisting of unbranched linear chains of beta-1,4-D-glucose, organizes into strong microfibrils."
+            },
+            {
+              "question": "What happens when a plant cell loses water and turgor pressure collapses?",
+              "options": ["Lysis and bursting", "Plasmolysis and wilting", "Immediate cell division", "Rapid photosynthesis"],
+              "answer": 1,
+              "explanation": "Without sufficient water in the central vacuole, internal turgor pressure drops and the plasma membrane shrinks away from the cell wall (plasmolysis), causing wilting."
+            },
+            {
+              "question": "Which microstructures permit direct intercellular biochemical communication between adjacent plant cells?",
+              "options": ["Desmosomes", "Plasmodesmata", "Synaptic clefts", "Centrosomes"],
+              "answer": 1,
+              "explanation": "Plasmodesmata are narrow cytoplasmic channels passing through adjacent cell walls enabling symplastic transport."
+            },
+            {
+              "question": "Why do chloroplasts possess their own distinct circular genome?",
+              "options": [
+                "They evolved from engulfed photosynthetic cyanobacteria via endosymbiosis",
+                "To synthesize extracellular glucose crystals",
+                "They replace the cell nucleus during daylight hours",
+                "To produce protective plant cuticle wax"
+              ],
+              "answer": 0,
+              "explanation": "Endosymbiotic theory demonstrates chloroplasts arose when ancient eukaryotic cells engulfed photosynthetic prokaryotes."
+            }
+          ]
+        },
+        {
+          "id": "marker_photosynthesis",
+          "name": "Chloroplast & Photosynthesis",
+          "category": "Biochemistry",
+          "learning_objectives": [
+            "Differentiate the light-dependent reactions within thylakoid membranes from light-independent (Calvin) reactions in the stroma.",
+            "Write the balanced chemical equation for oxygenic photosynthesis: 6CO2 + 6H2O -> C6H12O6 + 6O2.",
+            "Understand photolysis of water and chlorophyll photoexcitation."
+          ],
+          "voice_narration": "Examining the interior of a chloroplast organelle. Discs termed thylakoids are stacked into structures called grana, suspended within the gel-like fluid stroma. Within thylakoid membranes, chlorophyll pigment absorbs sunlight, splitting water molecules into oxygen gas, protons, and high-energy electrons that drive ATP and NADPH synthesis.",
+          "key_facts": [
+            "Photosynthesis generates approximately 170 billion metric tons of biomass annually on Earth.",
+            "The enzyme RuBisCO in the stroma catalyzes the primary carbon fixation reaction of the Calvin cycle.",
+            "Water photolysis at photosystem II is the primary source of virtually all breathable oxygen in Earth's atmosphere."
+          ],
+          "components": [
+            {"name": "Thylakoid Membrane", "function": "Houses photosystem I & II complexes, electron transport chains, and ATP synthase."},
+            {"name": "Granum", "function": "Dense disc stacks maximizing surface area for sunlight photon capture."},
+            {"name": "Stroma", "function": "Enzymatic fluid where CO2 fixation and the Calvin cycle sugar synthesis occur."},
+            {"name": "Chlorophyll", "function": "Porphyrin pigment absorbing blue and red light while reflecting green wavelengths."}
+          ],
+          "quiz": [
+            {
+              "question": "Where do the light-dependent reactions of photosynthesis take place within the chloroplast?",
+              "options": ["Stroma", "Thylakoid Membrane", "Outer chloroplast envelope", "Intermembrane space"],
+              "answer": 1,
+              "explanation": "Light-harvesting photosystems and ATP synthase enzymes are embedded in the thylakoid lipid bilayer."
+            },
+            {
+              "question": "What is the ultimate molecular source of the oxygen gas (O2) released during photosynthesis?",
+              "options": ["Carbon dioxide (CO2)", "Water (H2O)", "Glucose (C6H12O6)", "Ozone (O3)"],
+              "answer": 1,
+              "explanation": "Photolysis in the oxygen-evolving complex of Photosystem II splits H2O molecules, generating protons, electrons, and O2."
+            },
+            {
+              "question": "Which enzyme fixes atmospheric carbon dioxide into 3-PGA in the stroma during the Calvin cycle?",
+              "options": ["DNA Polymerase", "Amylase", "RuBisCO", "ATP Synthase"],
+              "answer": 2,
+              "explanation": "RuBisCO (Ribulose-1,5-bisphosphate carboxylase-oxygenase) catalyzes the crucial initial carbon-fixation reaction."
+            },
+            {
+              "question": "Why do healthy plant leaves appear predominantly green to human perception?",
+              "options": [
+                "Chlorophyll absorbs green photons and emits red light",
+                "Chlorophyll absorbs blue and red wavelengths while reflecting green light",
+                "Leaves contain high concentrations of liquid emerald",
+                "Green light triggers the highest rate of photosynthesis"
+              ],
+              "answer": 1,
+              "explanation": "Chlorophyll a and b pigments exhibit absorption peaks in blue (~430nm) and red (~660nm) bands, reflecting unabsorbed green light."
+            },
+            {
+              "question": "What two energy-carrier molecules produced by the light reactions are consumed by the Calvin cycle?",
+              "options": ["NADH and FADH2", "ATP and NADPH", "ADP and NADP+", "Glucose and Oxygen"],
+              "answer": 1,
+              "explanation": "ATP supplies biochemical phosphorylation energy, while NADPH provides reducing electrons to assemble triose phosphate sugars."
+            }
+          ]
+        },
+        {
+          "id": "marker_flower",
+          "name": "Angiosperm Flower Anatomy",
+          "category": "Plant Reproduction",
+          "learning_objectives": [
+            "Identify male reproductive whorls (stamen: filament, anther) and female whorls (carpel/pistil: stigma, style, ovary).",
+            "Explain pollination vectors and fertilization mechanisms leading to seed and fruit development.",
+            "Understand how floral morphology guides evolutionary human-pollinator interactions."
+          ],
+          "voice_narration": "Inspecting the reproductive anatomy of an angiosperm flower. The flower is organized into four concentric whorls: sepals (calyx), petals (corolla), male stamens producing pollen grains within the anther, and female carpels containing ovules within the protective ovary.",
+          "key_facts": [
+            "Angiosperms (flowering plants) represent over 80% of all known extant plant species on Earth.",
+            "Double fertilization is a hallmark of angiosperms: one sperm fertilizes the egg, while another forms triploid endosperm nutrition.",
+            "Following successful fertilization, the ovary wall develops into fruit enclosing the mature seed."
+          ],
+          "components": [
+            {"name": "Petal (Corolla)", "function": "Pigmented leaf-like structures attracting biotic pollinators with visual patterns."},
+            {"name": "Anther (Stamen)", "function": "Microsporangia producing pollen grains containing male gametophytes."},
+            {"name": "Stigma (Pistil)", "function": "Sticky receptive surface designed to trap pollen grains."},
+            {"name": "Ovary", "function": "Swollen basal compartment housing ovules that transform into fruit post-fertilization."}
+          ],
+          "quiz": [
+            {
+              "question": "Which organ represents the pollen-bearing male organ in a flower?",
+              "options": ["Sepal", "Stigma", "Anther", "Style"],
+              "answer": 2,
+              "explanation": "The anther, supported atop the filament of the stamen, produces and sheds mature pollen grains."
+            },
+            {
+              "question": "Which part of the carpel/pistil is specifically adapted to capture and germinate pollen grains?",
+              "options": ["Stigma", "Receptacle", "Petal", "Ovary"],
+              "answer": 0,
+              "explanation": "The stigma provides a sticky or papillate glandular surface where pollen lands and produces a pollen tube."
+            },
+            {
+              "question": "What botanical structure does the flower's ovary develop into following successful double fertilization?",
+              "options": ["A leaf", "A fruit", "A root tuber", "A thorn"],
+              "answer": 1,
+              "explanation": "Post-fertilization hormonal signaling induces ovary wall enlargement and differentiation into a fruit protecting the seeds."
+            },
+            {
+              "question": "What is the evolutionary function of brightly colored petals and sweet nectar secretion?",
+              "options": [
+                "To repel herbivorous insects",
+                "To attract pollinators such as bees, butterflies, and hummingbirds",
+                "To warm the flower during cold nights",
+                "To maximize photosynthetic starch synthesis"
+              ],
+              "answer": 1,
+              "explanation": "Floral visual cues and rewards evolved to incentivize animal vectors to carry pollen between distinct flowers."
+            },
+            {
+              "question": "In angiosperm double fertilization, what does the second sperm cell fuse with to form nutritive endosperm?",
+              "options": ["The egg cell", "Two polar nuclei (central cell)", "A synergid cell", "The micropyle"],
+              "answer": 1,
+              "explanation": "Fusion of a sperm cell (n) with two polar nuclei (2n) creates a triploid (3n) endosperm providing nourishment to the embryo."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "geometry",
+      "name": "3D Geometry & Mathematics",
+      "icon": "fas fa-cube",
+      "description": "Visualize polyhedra, spatial stereometry, and geometric coordinate transformations in real space.",
+      "markers": [
+        {
+          "id": "marker_polyhedra",
+          "name": "Platonic Solids & Polyhedra",
+          "category": "Spatial Mathematics",
+          "learning_objectives": [
+            "Define the five convex regular Platonic solids: tetrahedron, cube, octahedron, dodecahedron, and icosahedron.",
+            "Verify Euler's polyhedral formula V - E + F = 2 for 3D convex polyhedra.",
+            "Understand spatial symmetry groups and rotational dual polyhedra."
+          ],
+          "voice_narration": "Welcome to 3D spatial geometry. Before you is a regular convex polyhedron. There exist only five convex Platonic solids in three-dimensional Euclidean space. Every face is an identical regular polygon, and equal numbers of faces meet at each vertex. Count the vertices, edges, and faces to confirm Euler's invariant formula.",
+          "key_facts": [
+            "Euler's polyhedral formula V - E + F = 2 holds universally for all convex three-dimensional polyhedra.",
+            "An icosahedron has 20 equilateral triangular faces, 12 vertices, and 30 edges.",
+            "The cube and regular octahedron are geometric duals: connecting face centers of a cube produces an octahedron."
+          ],
+          "components": [
+            {"name": "Faces (F)", "function": "Planar polygon surfaces bounding the solid volume."},
+            {"name": "Edges (E)", "function": "Line segments where two polygonal faces intersect."},
+            {"name": "Vertices (V)", "function": "Point coordinates where three or more spatial edges converge."}
+          ],
+          "quiz": [
+            {
+              "question": "According to Euler's polyhedral formula for convex solids, what is V - E + F equal to?",
+              "options": ["0", "1", "2", "4"],
+              "answer": 2,
+              "explanation": "Euler's formula states that Vertices - Edges + Faces = 2 for any convex polyhedron."
+            },
+            {
+              "question": "How many regular triangular faces does a regular icosahedron possess?",
+              "options": ["8", "12", "20", "30"],
+              "answer": 2,
+              "explanation": "The icosahedron has 20 equilateral triangular faces, 12 vertices, and 30 edges (12 - 30 + 20 = 2)."
+            },
+            {
+              "question": "How many regular convex Platonic solids exist in 3-dimensional Euclidean space?",
+              "options": ["3", "5", "7", "Infinite"],
+              "answer": 1,
+              "explanation": "Only 5 Platonic solids exist: Tetrahedron, Cube (Hexahedron), Octahedron, Dodecahedron, and Icosahedron."
+            },
+            {
+              "question": "Which Platonic solid is the topological geometric dual of the cube?",
+              "options": ["Tetrahedron", "Octahedron", "Dodecahedron", "Icosahedron"],
+              "answer": 1,
+              "explanation": "The regular octahedron is the dual of the cube, having 8 faces and 6 vertices matching the cube's 6 faces and 8 vertices."
+            },
+            {
+              "question": "If a convex polyhedron has 12 vertices and 30 edges, how many faces must it have?",
+              "options": ["16", "18", "20", "24"],
+              "answer": 2,
+              "explanation": "Using Euler's formula V - E + F = 2: 12 - 30 + F = 2 -> -18 + F = 2 -> F = 20."
+            }
+          ]
+        },
+        {
+          "id": "marker_prism",
+          "name": "Triangular Prism & Optics",
+          "category": "Optical Geometry",
+          "learning_objectives": [
+            "Analyze the geometric properties of a right triangular prism (5 faces, 9 edges, 6 vertices).",
+            "Calculate volume V = (1/2 * b * h) * L and total surface area.",
+            "Demonstrate optical chromatic dispersion governed by Snell's refraction law n1*sin(theta1) = n2*sin(theta2)."
+          ],
+          "voice_narration": "Visualizing a right triangular prism. In spatial stereometry, a prism consists of two congruent parallel triangular bases joined by three rectangular lateral faces. When polychromatic white light enters, differences in refractive index cause chromatic dispersion, decomposing light into the visible spectrum.",
+          "key_facts": [
+            "A triangular prism has 5 faces (2 triangular bases, 3 rectangular faces), 9 edges, and 6 vertices.",
+            "Isaac Newton used a triangular glass prism in 1666 to prove that white sunlight is composed of all spectral rainbow colors.",
+            "Shorter violet wavelengths bend (refract) more sharply than longer red wavelengths because of optical dispersion."
+          ],
+          "components": [
+            {"name": "Triangular Bases", "function": "Two parallel congruent planar triangles defining the prism profile."},
+            {"name": "Lateral Faces", "function": "Three planar rectangles connecting corresponding base edges."},
+            {"name": "Dispersive Axis", "function": "Refracting prism vertex angle where spectral dispersion occurs."}
+          ],
+          "quiz": [
+            {
+              "question": "How many total faces, edges, and vertices does a triangular prism possess?",
+              "options": ["5 faces, 9 edges, 6 vertices", "6 faces, 12 edges, 8 vertices", "4 faces, 6 edges, 4 vertices", "5 faces, 8 edges, 5 vertices"],
+              "answer": 0,
+              "explanation": "A triangular prism consists of 2 triangular bases + 3 rectangular sides = 5 faces, 9 edges, and 6 vertices."
+            },
+            {
+              "question": "Which color of visible light undergoes the greatest angle of refraction (bending) when traversing a glass prism?",
+              "options": ["Red", "Yellow", "Green", "Violet"],
+              "answer": 3,
+              "explanation": "Violet light has a shorter wavelength and higher optical frequency, encountering a slightly higher refractive index in glass."
+            },
+            {
+              "question": "What is the geometric formula for the volume of a right triangular prism with base area A and length L?",
+              "options": ["V = (1/3) * A * L", "V = A * L", "V = 2 * A * L", "V = A^2 * L"],
+              "answer": 1,
+              "explanation": "The volume of any right prism equals the area of its base cross-section multiplied by its perpendicular height or length (V = A * L)."
+            },
+            {
+              "question": "What optical law describes the bending of light at the boundary between air and the glass prism?",
+              "options": ["Hooke's Law", "Snell's Law of Refraction", "Bernoulli's Principle", "Coulomb's Law"],
+              "answer": 1,
+              "explanation": "Snell's Law dictates that n1 * sin(theta1) = n2 * sin(theta2) at refractive interfaces."
+            },
+            {
+              "question": "If a prism's triangular base has base b=4 cm, height h=3 cm, and prism length L=10 cm, what is its volume?",
+              "options": ["60 cm³", "120 cm³", "30 cm³", "40 cm³"],
+              "answer": 0,
+              "explanation": "Base area A = (1/2) * 4 * 3 = 6 cm². Volume = 6 * 10 = 60 cm³."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chemistry",
+      "name": "Chemistry & Molecular Biology",
+      "icon": "fas fa-atom",
+      "description": "Explore molecular orbital geometries, chemical bonding, and macromolecular structures in 3D space.",
+      "markers": [
+        {
+          "id": "marker_dna",
+          "name": "DNA Double Helix",
+          "category": "Macromolecular Chemistry",
+          "learning_objectives": [
+            "Identify Watson-Crick complementary base pairing: Adenine with Thymine (2 hydrogen bonds) and Guanine with Cytosine (3 hydrogen bonds).",
+            "Understand the anti-parallel orientation of the deoxyribose-phosphate backbone (5' to 3' and 3' to 5').",
+            "Observe major and minor grooves crucial for regulatory protein-DNA binding."
+          ],
+          "voice_narration": "Exploring the iconic B-form DNA double helix. Two anti-parallel polynucleotide chains spiral around a central helical axis. Sugar-phosphate backbones form the outer structural rails, while complementary purine and pyrimidine nitrogenous base pairs bridge the center via hydrogen bonds.",
+          "key_facts": [
+            "One complete helical turn spans approximately 3.4 nanometers and contains roughly 10.5 base pairs.",
+            "Adenine pairs exclusively with Thymine via 2 hydrogen bonds; Guanine pairs with Cytosine via 3 hydrogen bonds.",
+            "Rosalind Franklin's Photo 51 X-ray diffraction pattern was instrumental in solving the double helix structure."
+          ],
+          "components": [
+            {"name": "Sugar-Phosphate Backbone", "function": "Repeating phosphodiester linkages providing chemical integrity and negative electrostatic charge."},
+            {"name": "Adenine-Thymine (A-T) Pair", "function": "Purine-pyrimidine base pair joined by two hydrogen bonds."},
+            {"name": "Guanine-Cytosine (G-C) Pair", "function": "Purine-pyrimidine base pair joined by three hydrogen bonds, conferring higher thermal stability."},
+            {"name": "Major & Minor Grooves", "function": "Differential spatial helical clefts where transcription factors recognize base sequence signatures."}
+          ],
+          "quiz": [
+            {
+              "question": "How many hydrogen bonds connect a Guanine-Cytosine (G-C) base pair in double-stranded DNA?",
+              "options": ["1", "2", "3", "4"],
+              "answer": 2,
+              "explanation": "G-C base pairs are bonded by three hydrogen bonds, making G-C-rich sequences more thermodynamically stable than A-T pairs (2 bonds)."
+            },
+            {
+              "question": "What directional orientation describes the two complementary strands of a DNA double helix?",
+              "options": ["Parallel (both 5' to 3')", "Antiparallel (one 5' to 3', other 3' to 5')", "Randomly twisted", "Perpendicular (90°)"],
+              "answer": 1,
+              "explanation": "The complementary strands run in opposite antiparallel directions, essential for hydrogen bond alignment."
+            },
+            {
+              "question": "What chemical groups constitute the outer structural 'backbone' of the DNA molecule?",
+              "options": ["Lipids and amino acids", "Deoxyribose sugars and phosphate groups", "Polypeptides and glucose", "Purines and pyrimidines"],
+              "answer": 1,
+              "explanation": "Phosphodiester bonds link 3' carbon atoms of deoxyribose to 5' carbon atoms of adjacent sugars via phosphate bridges."
+            },
+            {
+              "question": "According to Chargaff's rules of base equivalence in genomic DNA:",
+              "options": ["Amount of A = Amount of T, and Amount of G = Amount of C", "Amount of A = Amount of G", "Purines outnumber pyrimidines 2 to 1", "All four bases have identical molarity"],
+              "answer": 0,
+              "explanation": "Erwin Chargaff demonstrated that purine and pyrimidine stoichiometry dictates %A = %T and %G = %C."
+            },
+            {
+              "question": "Approximately how many base pairs are contained in one complete 360-degree helical turn of B-DNA?",
+              "options": ["4 base pairs", "10 to 10.5 base pairs", "25 base pairs", "50 base pairs"],
+              "answer": 1,
+              "explanation": "In physiological aqueous solution, B-DNA has a helical pitch of ~3.4 nm containing ~10.4-10.5 base pairs per pitch."
+            }
+          ]
+        },
+        {
+          "id": "marker_water",
+          "name": "Water Molecule (H2O)",
+          "category": "Chemical Bonding & Polarity",
+          "learning_objectives": [
+            "Explain the bent molecular geometry of water caused by two unshared lone pairs on oxygen.",
+            "Determine the bond angle of 104.5 degrees resulting from sp3 orbital hybridization and lone-pair repulsion.",
+            "Analyze dipole polarity, hydrogen bonding networks, and anomalous density."
+          ],
+          "voice_narration": "Examining the water molecule (H2O). The central oxygen atom forms two polar covalent bonds with hydrogen atoms and retains two non-bonding electron lone pairs. According to VSEPR theory, lone-pair repulsion compresses the tetrahedral angle from 109.5 degrees down to 104.5 degrees, creating a strong molecular dipole.",
+          "key_facts": [
+            "Water's high electric dipole moment enables extensive intermolecular hydrogen bonding, giving it an abnormally high boiling point.",
+            "Liquid water is denser than solid ice, causing icebergs to float—a property critical to aquatic life survival.",
+            "Water is known as the 'universal solvent' because its polarity dissolves ionic salts and polar biological metabolites."
+          ],
+          "components": [
+            {"name": "Oxygen Atom", "function": "Electronegative central nucleus attracting electron density with partial negative charge."},
+            {"name": "Hydrogen Atoms", "function": "Two electropositive vertices bearing partial positive charges."},
+            {"name": "Electron Lone Pairs", "function": "Two non-bonding electron clouds exerting strong localized electrostatic repulsion."},
+            {"name": "Hydrogen Bonds", "function": "Intermolecular electrostatic attractions forming dynamic three-dimensional lattice networks."}
+          ],
+          "quiz": [
+            {
+              "question": "What is the approximate bond angle between the two O-H bonds in a water molecule?",
+              "options": ["90.0°", "104.5°", "120.0°", "180.0°"],
+              "answer": 1,
+              "explanation": "Lone pair-lone pair and lone pair-bond pair repulsion compresses the ideal 109.5° tetrahedral angle down to 104.5°."
+            },
+            {
+              "question": "Why is the water molecule classified as polar?",
+              "options": [
+                "It contains radioactive hydrogen isotopes",
+                "High oxygen electronegativity and bent geometry create an asymmetric charge dipole",
+                "It has a net electric charge of +1",
+                "It only exists at zero degrees Celsius"
+              ],
+              "answer": 1,
+              "explanation": "Oxygen's greater electronegativity pulls electron density, producing a permanent net dipole moment."
+            },
+            {
+              "question": "What orbital hybridization model characterizes the oxygen atom in water?",
+              "options": ["sp", "sp2", "sp3", "dsp3"],
+              "answer": 2,
+              "explanation": "Oxygen possesses four electron domains (2 sigma bonds + 2 lone pairs), corresponding to sp3 hybridization."
+            },
+            {
+              "question": "Why does solid ice float on top of liquid water?",
+              "options": [
+                "Ice traps atmospheric nitrogen gas bubbles",
+                "The rigid hydrogen-bonded crystal lattice creates open hexagonal spacing with lower density than liquid water",
+                "Ice molecules lose atomic mass when frozen",
+                "Surface tension repels solid ice"
+              ],
+              "answer": 1,
+              "explanation": "Hexagonal ice lattice spacing forces molecules further apart than in the more fluid liquid state, lowering density by ~9%."
+            },
+            {
+              "question": "What type of intermolecular force is primarily responsible for water's unusually high surface tension and boiling point?",
+              "options": ["London dispersion forces", "Hydrogen bonding", "Metallic bonding", "Ionic crystalline bonding"],
+              "answer": 1,
+              "explanation": "Strong intermolecular hydrogen bonds between electropositive hydrogen and electronegative oxygen atoms require substantial thermal energy to break."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

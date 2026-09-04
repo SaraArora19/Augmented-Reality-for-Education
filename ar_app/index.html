@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AR Education — Augmented Reality HCI Learning Platform</title>
+  
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Three.js and OrbitControls CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <!-- MindAR.js — Real browser-based image marker tracking -->
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-three.prod.js"></script>
+  
+  <!-- App Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Hidden Web Camera Video for Marker Tracking / Background Feed -->
+  <video id="camera-feed" autoplay playsinline muted></video>
+
+  <!-- MindAR.js Real-Tracking Mount Container -->
+  <div id="mindar-container"></div>
+
+  <!-- 3D Canvas Viewport -->
+  <div id="canvas-container"></div>
+
+  <!-- Viewfinder Overlay for AR Camera Mode -->
+  <div id="ar-viewfinder" class="viewfinder-hidden">
+    <div class="viewfinder-box">
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+      <div class="laser-scan"></div>
+      <p class="scan-label"><i class="fas fa-qrcode"></i> Align AR Flashcard in Frame</p>
+    </div>
+  </div>
+
+  <!-- AR Mode Drag Hint Toast -->
+  <div id="ar-drag-hint" class="ar-drag-hint hidden">
+    <i class="fas fa-hand-point-up"></i>
+    <span>Hold &amp; drag to reposition · Pinch to scale · Scan a flashcard to auto-detect</span>
+  </div>
+
+  <!-- MindAR target-found indicator -->
+  <div id="ar-target-toast" class="ar-target-toast hidden">
+    <i class="fas fa-check-circle"></i>
+    <span id="ar-target-label">Marker detected!</span>
+  </div>
+
+  <!-- Top Application Bar -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-badge">
+        <i class="fas fa-vr-cardboard"></i>
+        <span>EduAR-HCI</span>
+      </div>
+      <div class="status-pill" id="tracking-status">
+        <span class="status-dot green"></span>
+        <span id="status-text">3D Lab Mode Active</span>
+      </div>
+    </div>
+
+    <!-- Mode Toggles & Action Links -->
+    <div class="header-right">
+      <button class="mode-toggle-btn active" id="btn-mode-3d" title="Switch to 3D Virtual Lab View">
+        <i class="fas fa-cube"></i> <span>3D Lab</span>
+      </button>
+      <button class="mode-toggle-btn" id="btn-mode-ar" title="Switch to Live Smartphone/Webcam AR Camera">
+        <i class="fas fa-camera"></i> <span>AR Camera</span>
+      </button>
+      <a href="/flashcards" target="_blank" class="nav-icon-link" title="Open Printable A4 Flashcards">
+        <i class="fas fa-print"></i> <span>Flashcards</span>
+      </a>
+      <a href="/evaluation" target="_blank" class="nav-icon-link" title="Launch HCI User Study (SUS & NASA-TLX)">
+        <i class="fas fa-chart-line"></i> <span>User Study</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Module & Marker Navigation Drawer -->
+  <nav class="module-bar" id="module-bar">
+    <button class="module-chip active" data-marker="marker_heart">
+      <i class="fas fa-heartbeat"></i> Heart
+    </button>
+    <button class="module-chip" data-marker="marker_brain">
+      <i class="fas fa-brain"></i> Brain
+    </button>
+    <button class="module-chip" data-marker="marker_eye">
+      <i class="fas fa-eye"></i> Eye
+    </button>
+    <button class="module-chip" data-marker="marker_engine">
+      <i class="fas fa-car-battery"></i> 4-Stroke Engine
+    </button>
+    <button class="module-chip" data-marker="marker_motor">
+      <i class="fas fa-bolt"></i> DC Motor
+    </button>
+    <button class="module-chip" data-marker="marker_gears">
+      <i class="fas fa-cogs"></i> Planetary Gears
+    </button>
+    <button class="module-chip" data-marker="marker_plantcell">
+      <i class="fas fa-seedling"></i> Plant Cell
+    </button>
+    <button class="module-chip" data-marker="marker_photosynthesis">
+      <i class="fas fa-leaf"></i> Chloroplast
+    </button>
+    <button class="module-chip" data-marker="marker_flower">
+      <i class="fas fa-spa"></i> Flower
+    </button>
+    <button class="module-chip" data-marker="marker_polyhedra">
+      <i class="fas fa-shapes"></i> Polyhedra
+    </button>
+    <button class="module-chip" data-marker="marker_prism">
+      <i class="fas fa-gem"></i> Optics Prism
+    </button>
+    <button class="module-chip" data-marker="marker_dna">
+      <i class="fas fa-dna"></i> DNA Helix
+    </button>
+    <button class="module-chip" data-marker="marker_water">
+      <i class="fas fa-tint"></i> Water Molecule
+    </button>
+  </nav>
+
+  <!-- Floating Educational Info Card -->
+  <aside class="info-card" id="info-card">
+    <div class="info-card-header">
+      <div>
+        <span class="info-category-tag" id="marker-category">Cardiovascular System</span>
+        <h2 class="info-title" id="marker-title">The Human Heart</h2>
+      </div>
+      <button class="collapse-btn" id="btn-collapse-info" title="Toggle Panel">
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </div>
+
+    <div class="info-card-body" id="info-card-body">
+      <!-- Objectives -->
+      <div class="info-section">
+        <h3><i class="fas fa-bullseye"></i> Learning Objectives</h3>
+        <ul id="marker-objectives" class="objectives-list">
+          <li>Identify the four chambers of the heart.</li>
+          <li>Understand systemic vs pulmonary flow.</li>
+        </ul>
+      </div>
+
+      <!-- Key Mechanism -->
+      <div class="info-section">
+        <h3><i class="fas fa-lightbulb"></i> Core Scientific Principle</h3>
+        <p id="marker-fact" class="fact-text">The left ventricle myocardium generates high hydrostatic pressure.</p>
+      </div>
+
+      <!-- Anatomical / Functional Components -->
+      <div class="info-section">
+        <h3><i class="fas fa-layer-group"></i> Key Components</h3>
+        <div id="marker-components" class="components-chip-container">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- 3D Interaction Toolbar (Left side) -->
+  <div class="tool-palette">
+    <button class="palette-btn" id="btn-rotate-auto" title="Toggle Auto-Rotation">
+      <i class="fas fa-sync-alt"></i>
+    </button>
+    <button class="palette-btn" id="btn-explode-view" title="Explode / Layer View">
+      <i class="fas fa-compress-arrows-alt"></i>
+    </button>
+    <button class="palette-btn" id="btn-wireframe" title="Toggle Wireframe">
+      <i class="fas fa-border-all"></i>
+    </button>
+    <button class="palette-btn" id="btn-reset-cam" title="Reset Camera View">
+      <i class="fas fa-crosshairs"></i>
+    </button>
+  </div>
+
+  <!-- Action Floating Buttons (Bottom Right) -->
+  <div class="action-dock">
+    <!-- Voice Narration -->
+    <button class="action-btn action-audio" id="btn-voice-narration" title="Play Audio Voice Narration">
+      <i class="fas fa-volume-up" id="audio-icon"></i>
+      <span class="btn-text">Voice Guide</span>
+    </button>
+
+    <!-- Ask AI Tutor -->
+    <button class="action-btn action-ai" id="btn-open-tutor" title="Chat with AI Pedagogical Tutor">
+      <i class="fas fa-robot"></i>
+      <span class="btn-text">AI Tutor</span>
+    </button>
+
+    <!-- Start 5-Question Quiz -->
+    <button class="action-btn action-quiz" id="btn-open-quiz" title="Take 5-Question Marker Quiz">
+      <i class="fas fa-award"></i>
+      <span class="btn-text">Take Quiz (5 Qs)</span>
+    </button>
+  </div>
+
+  <!-- AI Tutor Chat Drawer Modal -->
+  <div class="tutor-drawer" id="tutor-drawer">
+    <div class="drawer-header">
+      <div class="tutor-header-title">
+        <i class="fas fa-robot"></i>
+        <div>
+          <h3>EduAR AI Tutor</h3>
+          <span class="tutor-status-text">Pedagogical Guide &bull; Context: <strong id="tutor-context-marker">The Human Heart</strong></span>
+        </div>
+      </div>
+      <button class="close-drawer-btn" id="btn-close-tutor">&times;</button>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="drawer-messages" id="tutor-messages">
+      <div class="chat-msg tutor">
+        <div class="msg-bubble">
+          Hello! I am your AR AI Tutor. Ask me how any organ, mechanism, or formula functions in this 3D model, or request a hint for your upcoming quiz!
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Suggestion Chips -->
+    <div class="suggestion-tray" id="tutor-suggestions">
+      <button class="sugg-chip">How does it work?</button>
+      <button class="sugg-chip">Explain key components</button>
+      <button class="sugg-chip">Give me a quiz hint</button>
+    </div>
+
+    <!-- Chat Input Bar with Speech Recognition Mic -->
+    <div class="drawer-input-bar">
+      <button class="mic-btn" id="btn-mic-input" title="Speak your question">
+        <i class="fas fa-microphone"></i>
+      </button>
+      <input type="text" id="tutor-input-field" placeholder="Ask a question about this model..." autocomplete="off">
+      <button class="send-btn" id="btn-send-tutor">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- 5-Question Quiz Modal Dialog -->
+  <div class="modal-backdrop" id="quiz-modal">
+    <div class="quiz-modal-window">
+      <div class="modal-header">
+        <div>
+          <span class="quiz-badge">Interactive Assessment</span>
+          <h2 id="quiz-marker-title">The Human Heart — 5-Question Quiz</h2>
+        </div>
+        <button class="modal-close-btn" id="btn-close-quiz">&times;</button>
+      </div>
+
+      <!-- Quiz Body / Questions -->
+      <div class="quiz-modal-content" id="quiz-container">
+        <div class="quiz-progress-bar">
+          <div class="progress-fill" id="quiz-progress-fill" style="width: 20%;"></div>
+        </div>
+        <div class="question-header">
+          <span class="q-number" id="quiz-q-num">Question 1 of 5</span>
+          <span class="q-timer" id="quiz-timer"><i class="fas fa-clock"></i> 00:45</span>
+        </div>
+        
+        <h3 class="question-text" id="quiz-question-text">Loading question...</h3>
+
+        <div class="options-group" id="quiz-options-container">
+          <!-- Dynamically filled -->
+        </div>
+      </div>
+
+      <!-- Quiz Results Panel (Hidden until submission) -->
+      <div class="quiz-results-panel" id="quiz-results-panel" style="display: none;">
+        <div class="score-circle-box">
+          <div class="score-number" id="score-percentage">100%</div>
+          <div class="score-grade" id="score-grade">Grade A</div>
+        </div>
+        <h3 id="score-feedback-text">Outstanding mastery!</h3>
+        <p class="score-stats" id="score-stats-text">You answered 5 out of 5 questions correctly in 34 seconds.</p>
+        
+        <div class="results-breakdown" id="results-breakdown">
+          <!-- Explanations per question -->
+        </div>
+      </div>
+
+      <!-- Quiz Footer Buttons -->
+      <div class="modal-footer" id="quiz-footer">
+        <button class="quiz-btn prev-btn" id="btn-quiz-prev" disabled>Previous</button>
+        <button class="quiz-btn next-btn" id="btn-quiz-next">Next Question</button>
+        <button class="quiz-btn submit-btn" id="btn-quiz-submit" style="display: none;">Submit Quiz</button>
+        <button class="quiz-btn retry-btn" id="btn-quiz-retry" style="display: none;">Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Element for Speech Synthesis -->
+  <audio id="audio-player" style="display: none;"></audio>
+
+  <!-- Mobile Camera AR Permission Helper Modal -->
+  <div class="modal-backdrop" id="camera-modal">
+    <div class="quiz-modal-window" style="max-width: 480px;">
+      <div class="modal-header" style="background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(245,158,11,0.15));">
+        <div>
+          <span class="quiz-badge" style="background: #ef4444; color: white;">Camera Access Info</span>
+          <h2 style="font-size: 1.15rem; margin-top: 4px; color: #f8fafc;"><i class="fas fa-exclamation-triangle" style="color: #f59e0b; margin-right: 6px;"></i> Mobile Camera Over HTTP</h2>
+        </div>
+        <button class="modal-close-btn" id="btn-close-camera-modal">&times;</button>
+      </div>
+
+      <div class="quiz-modal-content" style="padding: 16px; font-size: 0.9rem; color: #cbd5e1; line-height: 1.5;">
+        <p style="margin-bottom: 12px;">Mobile browsers (Chrome/Safari) block live camera access on non-HTTPS network URLs like <code style="background:#1e293b; padding:2px 6px; border-radius:4px; color:#38bdf8;">http://192.168.29.122:5000</code>.</p>
+        
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+          <h4 style="color: #38bdf8; font-size: 0.95rem; margin-bottom: 6px;"><i class="fas fa-magic"></i> Option 1: Virtual AR Mode (Recommended)</h4>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 8px;">Tap below to use Virtual AR Camera mode. You can drag and scale the 3D model directly on screen!</p>
+          <button id="btn-enable-virtual-ar" style="width:100%; padding:10px; background: linear-gradient(135deg, #0ea5e9, #0284c7); border:none; border-radius:6px; color:white; font-weight:600; cursor:pointer;">
+            <i class="fas fa-vr-cardboard"></i> Launch Virtual AR Mode
+          </button>
+        </div>
+
+        <div style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px;">
+          <h4 style="color: #f59e0b; font-size: 0.95rem; margin-bottom: 6px;"><i class="fab fa-chrome"></i> Option 2: Enable Chrome Android Flag</h4>
+          <ol style="font-size: 0.82rem; color: #94a3b8; padding-left: 18px; margin: 0;">
+            <li style="margin-bottom:4px;">Open <code>chrome://flags/#unsafely-treat-insecure-origin-as-secure</code> in Chrome on phone.</li>
+            <li style="margin-bottom:4px;">Type <code>http://192.168.29.122:5000</code> into the text box.</li>
+            <li style="margin-bottom:4px;">Select <strong>Enabled</strong> and tap <strong>Relaunch</strong>.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="quiz-btn next-btn" id="btn-dismiss-camera-modal" style="width: 100%;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

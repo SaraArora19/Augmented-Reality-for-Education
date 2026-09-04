@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!129 &1
+PlayerSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 26
+  productName: EduAR_HCI
+  companyName: VIT_HCI_Team
+  bundleVersion: 1.0.0
+  applicationIdentifier:
+    Android: com.vit.eduar.hci
+  defaultScreenOrientation: 3
+  allowedAutorotateToPortrait: 1
+  allowedAutorotateToPortraitUpsideDown: 0
+  allowedAutorotateToLandscapeRight: 1
+  allowedAutorotateToLandscapeLeft: 1
+  useOSAutorotation: 1
+  targetArchitectures: 3
+  AndroidMinSdkVersion: 24
+  AndroidTargetSdkVersion: 34
+  stripEngineCode: 1
+  scriptingBackend:
+    Android: 1
+  activeColorSpace: 1
