@@ -18,6 +18,8 @@ const state = {
   autoRotate: true,
   exploded: false,
   wireframe: false,
+  isInteriorView: false,
+  manualCutaway: false,
   modulesData: null,
   activeQuiz: null,
   quizAnswers: {},
@@ -26,6 +28,11 @@ const state = {
   quizTimerInterval: null,
   isNarrating: false,
   isListening: false,
+  // Labels & Captions State
+  showLabels: true,
+  showCaptions: true,
+  lastCaptionText: "",
+  captionTimeout: null,
   // MindAR tracking state
   mindARInstance: null,
   mindARRunning: false,
@@ -40,6 +47,9 @@ const state = {
   arPinchStartScale: 1.0,
   arHintTimeout: null
 };
+
+// GLTF Loader reference
+const gltfLoader = (typeof THREE.GLTFLoader !== 'undefined') ? new THREE.GLTFLoader() : null;
 
 // Three.js References
 let scene, camera, renderer, controls;
@@ -74,7 +84,7 @@ const audioIcon = document.getElementById('audio-icon');
 const btnOpenTutor = document.getElementById('btn-open-tutor');
 const btnOpenQuiz = document.getElementById('btn-open-quiz');
 
-// AI Tutor Drawer
+// AI Tutor Drawer & Closed Captions
 const tutorDrawer = document.getElementById('tutor-drawer');
 const btnCloseTutor = document.getElementById('btn-close-tutor');
 const tutorContextMarker = document.getElementById('tutor-context-marker');
@@ -83,6 +93,13 @@ const tutorSuggestions = document.getElementById('tutor-suggestions');
 const tutorInputField = document.getElementById('tutor-input-field');
 const btnSendTutor = document.getElementById('btn-send-tutor');
 const btnMicInput = document.getElementById('btn-mic-input');
+const tutorCaptionsOverlay = document.getElementById('tutor-captions-overlay');
+const tutorCaptionText = document.getElementById('tutor-caption-text');
+const btnToggleCaptions = document.getElementById('btn-toggle-captions');
+const btnCloseCaptions = document.getElementById('btn-close-captions');
+const btnReopenCaptions = document.getElementById('btn-reopen-captions');
+const btnToggleCaptionsPalette = document.getElementById('btn-toggle-captions-palette');
+const paletteCaptionsIcon = document.getElementById('palette-captions-icon');
 
 // Quiz Modal Elements
 const quizModal = document.getElementById('quiz-modal');
@@ -101,6 +118,8 @@ const btnQuizSubmit = document.getElementById('btn-quiz-submit');
 const btnQuizRetry = document.getElementById('btn-quiz-retry');
 
 // Palette Buttons
+const btnToggleLabels = document.getElementById('btn-toggle-labels');
+const btnToggleCutaway = document.getElementById('btn-toggle-cutaway');
 const btnRotateAuto = document.getElementById('btn-rotate-auto');
 const btnExplodeView = document.getElementById('btn-explode-view');
 const btnWireframe = document.getElementById('btn-wireframe');
@@ -196,10 +215,71 @@ function animate() {
     if (activeModelGroup.userData.animate) {
       activeModelGroup.userData.animate(time);
     }
+
+    // Dynamic Zoom-based Level of Detail (LOD) check
+    updateZoomLOD();
   }
 
   controls.update();
   renderer.render(scene, camera);
+}
+
+function updateZoomLOD() {
+  if (!camera || !controls || !activeModelGroup) return;
+
+  const distance = camera.position.distanceTo(controls.target);
+  const shouldShowInterior = state.manualCutaway || (distance < 5.0);
+
+  if (state.isInteriorView !== shouldShowInterior) {
+    state.isInteriorView = shouldShowInterior;
+    applyZoomLODState(shouldShowInterior);
+  }
+}
+
+function applyZoomLODState(isInterior) {
+  if (!activeModelGroup) return;
+
+  const zoomHudBadge = document.getElementById('zoom-hud-badge');
+  const zoomHudText = document.getElementById('zoom-hud-text');
+  const zoomHudIcon = document.getElementById('zoom-hud-icon');
+
+  if (zoomHudBadge) {
+    zoomHudBadge.classList.toggle('interior-active', isInterior);
+    if (isInterior) {
+      if (zoomHudText) zoomHudText.textContent = "Zoom Level: Deep Interior Vasculature & Internal Valves";
+      if (zoomHudIcon) zoomHudIcon.className = "fas fa-microscope";
+    } else {
+      if (zoomHudText) zoomHudText.textContent = "Zoom Level: Macro Anatomy (Exterior View)";
+      if (zoomHudIcon) zoomHudIcon.className = "fas fa-search-plus";
+    }
+  }
+
+  if (btnToggleCutaway) {
+    btnToggleCutaway.classList.toggle('active', isInterior);
+  }
+
+  activeModelGroup.traverse((child) => {
+    // Outer wall cutaway transparency
+    if (child.userData && child.userData.isOuterWall) {
+      if (child.material) {
+        child.material.transparent = true;
+        child.material.opacity = isInterior ? 0.35 : 1.0;
+        child.material.needsUpdate = true;
+      }
+    }
+    // Interior structure visibility
+    if (child.userData && child.userData.isInteriorStructure) {
+      child.visible = isInterior;
+    }
+    // Component Labels Level of Detail
+    if (child.userData && child.userData.isComponentLabel) {
+      if (child.userData.isInteriorLabel) {
+        child.visible = state.showLabels && isInterior;
+      } else {
+        child.visible = state.showLabels && (!isInterior);
+      }
+    }
+  });
 }
 
 /* ==========================================================================
@@ -207,6 +287,8 @@ function animate() {
    ========================================================================== */
 function loadMarker(markerId) {
   state.activeMarkerId = markerId;
+  state.isInteriorView = false;
+  state.manualCutaway = false;
 
   // Clear previous model
   if (activeModelGroup) {
@@ -217,7 +299,44 @@ function loadMarker(markerId) {
   // Create new model group
   const group = new THREE.Group();
   group.name = markerId;
+  activeModelGroup = group;
+  scene.add(activeModelGroup);
 
+  const modelName = markerId.replace('marker_', '');
+  const gltfUrl = `models/${modelName}.glb`;
+
+  if (gltfLoader) {
+    gltfLoader.load(
+      gltfUrl,
+      (gltf) => {
+        const loadedModel = gltf.scene;
+        loadedModel.scale.set(1.5, 1.5, 1.5);
+        group.add(loadedModel);
+        applyZoomLODState(false);
+      },
+      undefined,
+      () => {
+        // Fallback to high-detail anatomical 3D model
+        createProceduralModelForMarker(markerId, group);
+        applyZoomLODState(false);
+      }
+    );
+  } else {
+    createProceduralModelForMarker(markerId, group);
+    applyZoomLODState(false);
+  }
+
+  // Update UI Metadata
+  updateInfoCard(markerId);
+  updateModuleChips(markerId);
+
+  // Stop voice narration if active
+  if (state.isNarrating) {
+    stopNarration();
+  }
+}
+
+function createProceduralModelForMarker(markerId, group) {
   switch (markerId) {
     case 'marker_heart':
       createHeartModel(group);
@@ -261,17 +380,188 @@ function loadMarker(markerId) {
     default:
       createHeartModel(group);
   }
+}
 
-  activeModelGroup = group;
-  scene.add(activeModelGroup);
+/* ==========================================================================
+   3D Component Label Generator (Billboarded Canvas Texture + Leader Line)
+   ========================================================================== */
+function create3DLabel(text, labelPos, targetPos = null, colorHex = '#06b6d4', isInteriorLabel = false) {
+  const container = new THREE.Group();
+  container.name = 'label_' + text;
+  container.userData.isComponentLabel = true;
+  container.userData.isInteriorLabel = isInteriorLabel;
 
-  // Update UI Metadata
-  updateInfoCard(markerId);
-  updateModuleChips(markerId);
+  const canvas = document.createElement('canvas');
+  canvas.width = 380;
+  canvas.height = 80;
+  const ctx = canvas.getContext('2d');
 
-  // Stop voice narration if active
-  if (state.isNarrating) {
-    stopNarration();
+  const radius = 14;
+  ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
+  ctx.strokeStyle = colorHex;
+  ctx.lineWidth = 3;
+
+  ctx.beginPath();
+  ctx.moveTo(radius, 0);
+  ctx.lineTo(canvas.width - radius, 0);
+  ctx.quadraticCurveTo(canvas.width, 0, canvas.width, radius);
+  ctx.lineTo(canvas.width, canvas.height - radius);
+  ctx.quadraticCurveTo(canvas.width, canvas.height, canvas.width - radius, canvas.height);
+  ctx.lineTo(radius, canvas.height);
+  ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - radius);
+  ctx.lineTo(0, radius);
+  ctx.quadraticCurveTo(0, 0, radius, 0);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = colorHex;
+  ctx.beginPath();
+  ctx.arc(22, canvas.height / 2, 7, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.font = 'bold 22px Inter, sans-serif';
+  ctx.fillStyle = '#ffffff';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, 38, canvas.height / 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+
+  const spriteMaterial = new THREE.SpriteMaterial({
+    map: texture,
+    transparent: true,
+    depthTest: false,
+    depthWrite: false
+  });
+  const sprite = new THREE.Sprite(spriteMaterial);
+  sprite.scale.set(1.45, 0.36, 1.0);
+  sprite.position.copy(labelPos);
+  container.add(sprite);
+
+  if (targetPos) {
+    const points = [labelPos, targetPos];
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
+    const lineMat = new THREE.LineBasicMaterial({
+      color: new THREE.Color(colorHex),
+      transparent: true,
+      opacity: 0.85,
+      linewidth: 2
+    });
+    const line = new THREE.Line(lineGeo, lineMat);
+    container.add(line);
+
+    const pin = new THREE.Mesh(
+      new THREE.SphereGeometry(0.045, 12, 12),
+      new THREE.MeshBasicMaterial({ color: new THREE.Color(colorHex) })
+    );
+    pin.position.copy(targetPos);
+    container.add(pin);
+  }
+
+  container.visible = state.showLabels !== false;
+  return container;
+}
+
+// Tubular Vessel Tree Generator Helper
+function createTubularVesselNetwork(parentGroup, pointsArray, radius = 0.04, colorHex = 0xef4444) {
+  if (!pointsArray || pointsArray.length < 2) return;
+  const curve = new THREE.CatmullRomCurve3(pointsArray);
+  const tubeGeo = new THREE.TubeGeometry(curve, 32, radius, 12, false);
+  const mat = new THREE.MeshStandardMaterial({
+    color: colorHex,
+    roughness: 0.25,
+    metalness: 0.2,
+    emissive: colorHex,
+    emissiveIntensity: 0.2
+  });
+  const tubeMesh = new THREE.Mesh(tubeGeo, mat);
+  if (parentGroup.userData && parentGroup.userData.isInteriorStructure) {
+    tubeMesh.userData.isInteriorStructure = true;
+  }
+  if (parentGroup.userData && parentGroup.userData.isOuterWallGroup) {
+    tubeMesh.userData.isOuterWall = true;
+  }
+  parentGroup.add(tubeMesh);
+}
+
+/* ==========================================================================
+   AI Tutor Live Closed Captions (Subtitles Overlay System)
+   ========================================================================== */
+function toggleCaptionsVisibility(forceState = null) {
+  state.showCaptions = (forceState !== null) ? forceState : !state.showCaptions;
+  
+  const eyeIcons = [
+    btnToggleCaptions ? btnToggleCaptions.querySelector('i') : null,
+    paletteCaptionsIcon
+  ];
+
+  if (state.showCaptions) {
+    if (btnToggleCaptions) btnToggleCaptions.classList.add('active');
+    if (btnToggleCaptionsPalette) btnToggleCaptionsPalette.classList.add('active');
+    eyeIcons.forEach(icon => { if (icon) icon.className = 'fas fa-eye'; });
+
+    if (state.lastCaptionText) {
+      showTutorCaption(state.lastCaptionText, 14000);
+    }
+  } else {
+    if (btnToggleCaptions) btnToggleCaptions.classList.remove('active');
+    if (btnToggleCaptionsPalette) btnToggleCaptionsPalette.classList.remove('active');
+    eyeIcons.forEach(icon => { if (icon) icon.className = 'fas fa-eye-slash'; });
+
+    hideTutorCaption(false);
+  }
+}
+
+function showTutorCaption(text, durationMs = 8000) {
+  if (!tutorCaptionsOverlay || !tutorCaptionText) return;
+
+  const cleanText = text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/`([^`]+)`/g, '$1');
+  state.lastCaptionText = cleanText;
+  tutorCaptionText.textContent = cleanText;
+
+  clearTimeout(state.captionTimeout);
+
+  if (!state.showCaptions) {
+    tutorCaptionsOverlay.classList.add('hidden');
+    if (btnReopenCaptions) btnReopenCaptions.classList.remove('hidden');
+    return;
+  }
+
+  tutorCaptionsOverlay.classList.remove('hidden');
+  if (btnReopenCaptions) btnReopenCaptions.classList.add('hidden');
+
+  if (durationMs > 0) {
+    state.captionTimeout = setTimeout(() => {
+      hideTutorCaption(false);
+    }, durationMs);
+  }
+}
+
+function hideTutorCaption(userClosed = true) {
+  if (tutorCaptionsOverlay) {
+    tutorCaptionsOverlay.classList.add('hidden');
+  }
+  // When closed/hidden, show the eye reopen button if caption text or narration is available
+  if (btnReopenCaptions && (state.lastCaptionText || state.isNarrating)) {
+    btnReopenCaptions.classList.remove('hidden');
+  }
+}
+
+function reopenTutorCaption() {
+  state.showCaptions = true;
+  const eyeIcons = [
+    btnToggleCaptions ? btnToggleCaptions.querySelector('i') : null,
+    paletteCaptionsIcon
+  ];
+  if (btnToggleCaptions) btnToggleCaptions.classList.add('active');
+  if (btnToggleCaptionsPalette) btnToggleCaptionsPalette.classList.add('active');
+  eyeIcons.forEach(icon => { if (icon) icon.className = 'fas fa-eye'; });
+
+  if (state.lastCaptionText) {
+    showTutorCaption(state.lastCaptionText, 14000);
+  } else {
+    showTutorCaption("AI Tutor closed captions enabled.", 4000);
   }
 }
 
@@ -317,6 +607,14 @@ function createHeartModel(group) {
   venaCava.position.set(0.7, 1.2, -0.1);
   group.add(venaCava);
 
+  // 3D Component Labels
+  group.add(create3DLabel("Left Ventricle", new THREE.Vector3(-1.6, -0.2, 0.4), new THREE.Vector3(-0.3, -0.2, 0), "#ef4444"));
+  group.add(create3DLabel("Right Ventricle", new THREE.Vector3(1.7, -0.3, 0.6), new THREE.Vector3(0.4, -0.3, 0.2), "#ef4444"));
+  group.add(create3DLabel("Left Atrium", new THREE.Vector3(-1.7, 0.9, -0.2), new THREE.Vector3(-0.5, 0.8, -0.2), "#3b82f6"));
+  group.add(create3DLabel("Right Atrium", new THREE.Vector3(1.8, 0.8, 0.2), new THREE.Vector3(0.6, 0.7, 0), "#3b82f6"));
+  group.add(create3DLabel("Aorta Arch", new THREE.Vector3(-0.1, 2.1, -0.1), new THREE.Vector3(-0.1, 1.4, -0.1), "#06b6d4"));
+  group.add(create3DLabel("Superior Vena Cava", new THREE.Vector3(1.8, 1.6, -0.1), new THREE.Vector3(0.7, 1.2, -0.1), "#3b82f6"));
+
   // Heartbeat Pulsation Animation
   group.userData.animate = (time) => {
     const pulse = 1.0 + Math.sin(time * 6.5) * 0.05 + Math.sin(time * 13) * 0.02;
@@ -359,6 +657,12 @@ function createBrainModel(group) {
   stem.position.set(0, -1.1, -0.2);
   stem.rotation.x = 0.2;
   group.add(stem);
+
+  // 3D Component Labels
+  group.add(create3DLabel("Left Cerebrum", new THREE.Vector3(-1.9, 0.5, 0.3), new THREE.Vector3(-0.6, 0.3, 0), "#ec4899"));
+  group.add(create3DLabel("Right Cerebrum", new THREE.Vector3(1.9, 0.5, 0.3), new THREE.Vector3(0.6, 0.3, 0), "#ec4899"));
+  group.add(create3DLabel("Cerebellum", new THREE.Vector3(0, -1.3, -1.4), new THREE.Vector3(0, -0.7, -0.9), "#818cf8"));
+  group.add(create3DLabel("Brainstem", new THREE.Vector3(0, -1.9, 0.5), new THREE.Vector3(0, -1.1, -0.2), "#fde047"));
 
   // Synaptic Glowing Pulse
   group.userData.animate = (time) => {
@@ -405,6 +709,12 @@ function createEyeModel(group) {
   nerve.rotation.x = Math.PI / 2;
   nerve.position.set(0, 0, -1.8);
   group.add(nerve);
+
+  // 3D Component Labels
+  group.add(create3DLabel("Cornea Lens", new THREE.Vector3(0, 1.5, 1.2), new THREE.Vector3(0, 0, 1.0), "#38bdf8"));
+  group.add(create3DLabel("Iris & Pupil", new THREE.Vector3(1.7, 0, 1.4), new THREE.Vector3(0, 0, 1.35), "#0284c7"));
+  group.add(create3DLabel("Sclera Eyeball", new THREE.Vector3(-2.1, 0, 0), new THREE.Vector3(-1.3, 0, 0), "#f8fafc"));
+  group.add(create3DLabel("Optic Nerve", new THREE.Vector3(0, -1.5, -1.8), new THREE.Vector3(0, 0, -1.8), "#f59e0b"));
 }
 
 // 3D MODEL 4: Four-Stroke IC Engine
@@ -438,6 +748,13 @@ function createEngineModel(group) {
   const spark = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 12), sparkMat);
   spark.position.set(0, 1.8, 0);
   group.add(spark);
+
+  // 3D Component Labels
+  group.add(create3DLabel("Spark Plug", new THREE.Vector3(1.6, 2.0, 0), new THREE.Vector3(0, 1.8, 0), "#facc15"));
+  group.add(create3DLabel("Cylinder Casing", new THREE.Vector3(-1.8, 0.5, 0), new THREE.Vector3(-1.1, 0.5, 0), "#64748b"));
+  group.add(create3DLabel("Piston Head", new THREE.Vector3(1.8, 0.5, 0), new THREE.Vector3(0, 0.5, 0), "#d97706"));
+  group.add(create3DLabel("Connecting Rod", new THREE.Vector3(-1.7, -0.3, 0), new THREE.Vector3(0, -0.3, 0), "#94a3b8"));
+  group.add(create3DLabel("Crankshaft", new THREE.Vector3(1.6, -1.6, 0), new THREE.Vector3(0, -1.6, 0), "#ef4444"));
 
   // Kinematic Cycle Animation
   group.userData.animate = (time) => {
@@ -488,6 +805,13 @@ function createMotorModel(group) {
 
   group.add(rotorGroup);
 
+  // 3D Component Labels
+  group.add(create3DLabel("North Stator Magnet (N)", new THREE.Vector3(-2.5, 0, 0), new THREE.Vector3(-1.6, 0, 0), "#ef4444"));
+  group.add(create3DLabel("South Stator Magnet (S)", new THREE.Vector3(2.5, 0, 0), new THREE.Vector3(1.6, 0, 0), "#3b82f6"));
+  group.add(create3DLabel("Armature Coil", new THREE.Vector3(0, 1.7, 0), new THREE.Vector3(0, 0.8, 0), "#b45309"));
+  group.add(create3DLabel("Split-Ring Commutator", new THREE.Vector3(1.6, -1.1, 1.0), new THREE.Vector3(0, 0, 1.0), "#f59e0b"));
+  group.add(create3DLabel("Central Shaft", new THREE.Vector3(-1.6, -1.2, 0), new THREE.Vector3(0, 0, 0), "#64748b"));
+
   group.userData.animate = (time) => {
     rotorGroup.rotation.z = time * 6.0;
   };
@@ -518,6 +842,11 @@ function createGearsModel(group) {
     group.add(planet);
     planets.push({ mesh: planet, baseAngle: angle });
   }
+
+  // 3D Component Labels
+  group.add(create3DLabel("Central Sun Gear", new THREE.Vector3(0, 0, 1.0), new THREE.Vector3(0, 0, 0), "#f59e0b"));
+  group.add(create3DLabel("Planet Gears", new THREE.Vector3(-1.9, 1.3, 0), new THREE.Vector3(-1.15, 0, 0), "#10b981"));
+  group.add(create3DLabel("Outer Ring Gear", new THREE.Vector3(2.5, 0, 0), new THREE.Vector3(1.8, 0, 0), "#6366f1"));
 
   group.userData.animate = (time) => {
     sun.rotation.z = time * 3.0;
@@ -564,6 +893,12 @@ function createPlantCellModel(group) {
     cp.position.set(Math.cos(theta) * 1.1, (i % 2 === 0 ? 0.6 : -0.6), Math.sin(theta) * 1.1);
     group.add(cp);
   }
+
+  // 3D Component Labels
+  group.add(create3DLabel("Hexagonal Cell Wall", new THREE.Vector3(-2.4, 0, 0), new THREE.Vector3(-1.6, 0, 0), "#15803d"));
+  group.add(create3DLabel("Central Vacuole", new THREE.Vector3(0, -1.6, 0), new THREE.Vector3(-0.2, 0, 0), "#38bdf8"));
+  group.add(create3DLabel("Nucleus", new THREE.Vector3(1.8, 1.1, 0.3), new THREE.Vector3(0.8, 0.5, 0.3), "#8b5cf6"));
+  group.add(create3DLabel("Chloroplast Granules", new THREE.Vector3(2.1, -0.8, 0), new THREE.Vector3(1.1, -0.6, 0), "#22c55e"));
 }
 
 // 3D MODEL 8: Chloroplast & Photosynthesis
@@ -585,6 +920,10 @@ function createChloroplastModel(group) {
       group.add(disc);
     }
   }
+
+  // 3D Component Labels
+  group.add(create3DLabel("Outer Double Envelope", new THREE.Vector3(-2.4, 0.6, 0), new THREE.Vector3(-1.4, 0.4, 0), "#10b981"));
+  group.add(create3DLabel("Thylakoid Grana Stacks", new THREE.Vector3(1.9, -0.3, 0), new THREE.Vector3(0.55, -0.3, 0), "#065f46"));
 }
 
 // 3D MODEL 9: Flower Anatomy
@@ -612,6 +951,11 @@ function createFlowerModel(group) {
     petal.rotation.z = angle - Math.PI / 2;
     group.add(petal);
   }
+
+  // 3D Component Labels
+  group.add(create3DLabel("Petals (Corolla)", new THREE.Vector3(1.8, 1.3, 0.1), new THREE.Vector3(0.9, 0.9, 0.1), "#ec4899"));
+  group.add(create3DLabel("Ovary / Receptacle", new THREE.Vector3(-1.5, 0, 0), new THREE.Vector3(0, 0, 0), "#f59e0b"));
+  group.add(create3DLabel("Stem (Pedicel)", new THREE.Vector3(1.4, -1.6, 0), new THREE.Vector3(0, -1.0, 0), "#16a34a"));
 }
 
 // 3D MODEL 10: Platonic Solids (Polyhedra)
@@ -635,6 +979,10 @@ function createPolyhedraModel(group) {
   const innerDualMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.4 });
   const innerDual = new THREE.Mesh(new THREE.DodecahedronGeometry(0.7, 0), innerDualMat);
   group.add(innerDual);
+
+  // 3D Component Labels
+  group.add(create3DLabel("Outer Icosahedron Shell", new THREE.Vector3(2.3, 1.1, 0), new THREE.Vector3(1.4, 0, 0), "#6366f1"));
+  group.add(create3DLabel("Inner Dual Dodecahedron", new THREE.Vector3(-1.9, -0.9, 0), new THREE.Vector3(0, 0, 0), "#f43f5e"));
 
   group.userData.animate = (time) => {
     innerDual.rotation.x = time * 0.8;
@@ -676,6 +1024,11 @@ function createPrismModel(group) {
     rainbowRay.rotation.z = -Math.PI / 3 + (idx - 2) * 0.08;
     group.add(rainbowRay);
   });
+
+  // 3D Component Labels
+  group.add(create3DLabel("Incident White Light Ray", new THREE.Vector3(-2.4, 1.3, 0), new THREE.Vector3(-2.0, 0, 0), "#ffffff"));
+  group.add(create3DLabel("Triangular Glass Prism", new THREE.Vector3(0, 1.7, 0), new THREE.Vector3(0, 0, 0), "#06b6d4"));
+  group.add(create3DLabel("Refracted Rainbow Spectrum", new THREE.Vector3(2.5, -0.5, 0), new THREE.Vector3(1.6, 0, 0), "#10b981"));
 }
 
 // 3D MODEL 12: DNA Double Helix
@@ -717,6 +1070,10 @@ function createDNAModel(group) {
     rung.rotation.y = -angle;
     group.add(rung);
   }
+
+  // 3D Component Labels
+  group.add(create3DLabel("Sugar-Phosphate Backbone", new THREE.Vector3(-1.9, 1.1, 0), new THREE.Vector3(-0.9, 1.0, 0), "#8b5cf6"));
+  group.add(create3DLabel("Base Pair Rungs (A-T / G-C)", new THREE.Vector3(1.9, 0, 0), new THREE.Vector3(0, 0, 0), "#ef4444"));
 
   group.userData.animate = (time) => {
     group.rotation.y = time * 0.6;
@@ -760,6 +1117,11 @@ function createWaterModel(group) {
 
   group.add(createBond(h1Pos));
   group.add(createBond(h2Pos));
+
+  // 3D Component Labels
+  group.add(create3DLabel("Central Oxygen Atom (O)", new THREE.Vector3(0, 1.5, 0), new THREE.Vector3(0, 0, 0), "#ef4444"));
+  group.add(create3DLabel("Hydrogen Atoms (H)", new THREE.Vector3(1.9, -1.4, 0), new THREE.Vector3(1.26, -0.98, 0), "#38bdf8"));
+  group.add(create3DLabel("Covalent Bonds (104.5°)", new THREE.Vector3(-1.9, -1.4, 0), new THREE.Vector3(-0.6, -0.5, 0), "#94a3b8"));
 }
 
 /* ==========================================================================
@@ -906,7 +1268,9 @@ async function startMindAR() {
     const kl = new THREE.DirectionalLight(0xffffff, 0.8);
     kl.position.set(5, 10, 7);
     mrScene.add(kl);
-    mrScene.add(new THREE.DirectionalLight(0x38bdf8, 0.4).position.set(-5, 5, -5) && kl);
+    const fillL = new THREE.DirectionalLight(0x38bdf8, 0.4);
+    fillL.position.set(-5, 5, -5);
+    mrScene.add(fillL);
 
     // Create one anchor per marker
     const anchorGroups = [];
@@ -974,7 +1338,7 @@ async function startMindAR() {
 /** Fallback: show raw camera feed or prompt mobile options */
 async function startFallbackCamera() {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    console.warn('[Camera] getUserMedia not available (Insecure HTTP context on mobile)');
+    console.warn('[Camera] getUserMedia not available');
     openCameraModal();
     startVirtualARMode();
     return;
@@ -987,12 +1351,11 @@ async function startFallbackCamera() {
     });
     cameraFeed.srcObject = stream;
     cameraFeed.classList.add('active');
-    document.body.classList.add('mindar-active'); // hides Three.js canvas, shows camera bg
-    trackingStatus.textContent = 'Camera Active (Live Feed)';
+    trackingStatus.textContent = 'Live AR Camera Active';
     arDragHint.classList.remove('hidden');
     clearTimeout(state.arHintTimeout);
     state.arHintTimeout = setTimeout(() => arDragHint.classList.add('hidden'), 6000);
-    setupARDragGestures(cameraFeed);
+    setupARDragGestures(canvasContainer);
   } catch (err) {
     console.warn('[Camera] getUserMedia failed:', err);
     openCameraModal();
@@ -1000,9 +1363,8 @@ async function startFallbackCamera() {
   }
 }
 
-/** Virtual AR Mode for mobile browsers where camera is restricted over HTTP */
+/** Virtual AR Mode for mobile browsers where camera is restricted */
 function startVirtualARMode() {
-  document.body.classList.add('mindar-active');
   trackingStatus.textContent = 'AR Mode Active (Virtual Camera)';
   arDragHint.classList.remove('hidden');
   clearTimeout(state.arHintTimeout);
@@ -1161,11 +1523,11 @@ async function toggleARMode(enableAR) {
     arViewfinder.classList.remove('viewfinder-hidden');
     if (grid) grid.visible = false;
 
-    // Show MindAR container, hide plain Three.js canvas
-    mindarContainer.classList.add('active');
-    document.body.classList.add('mindar-active');
-
-    await startMindAR();
+    // Start live camera stream overlay behind 3D canvas
+    await startFallbackCamera();
+    try {
+      startMindAR();
+    } catch (_) {}
   } else {
     btnMode3D.classList.add('active');
     btnModeAR.classList.remove('active');
@@ -1173,11 +1535,8 @@ async function toggleARMode(enableAR) {
     trackingStatus.textContent = '3D Lab Mode Active';
     if (grid) grid.visible = true;
 
-    // Restore Three.js lab canvas
-    document.body.classList.remove('mindar-active');
-    mindarContainer.classList.remove('active');
-
-    await stopMindAR();
+    // Restore standard 3D Lab view
+    stopMindAR();
   }
 }
 
@@ -1204,6 +1563,8 @@ function playVoiceNarration() {
   }
 
   const textToSpeak = markerData ? markerData.voice_narration : "Exploring 3D educational model.";
+  showTutorCaption(textToSpeak, 14000);
+
   const utterance = new SpeechSynthesisUtterance(textToSpeak);
   utterance.rate = 0.95;
   utterance.pitch = 1.0;
@@ -1230,6 +1591,7 @@ function stopNarration() {
   state.isNarrating = false;
   btnVoiceNarration.classList.remove("playing");
   audioIcon.className = "fas fa-volume-up";
+  hideTutorCaption();
 }
 
 /* ==========================================================================
@@ -1301,16 +1663,26 @@ async function submitTutorMessage(userText) {
       loadingBubble.remove();
       appendChatBubble(data.reply, 'tutor');
       updateTutorSuggestions(data.suggestions);
+
+      // Display live closed captions for AI Tutor reply!
+      showTutorCaption(data.reply, 12000);
+
+      // Synthesize AI Tutor speech output
+      if ('speechSynthesis' in window && !state.isNarrating) {
+        window.speechSynthesis.cancel();
+        const cleanTutorText = data.reply.replace(/\*\*(.*?)\*\*/g, '$1');
+        const tutorUtterance = new SpeechSynthesisUtterance(cleanTutorText);
+        tutorUtterance.rate = 1.0;
+        window.speechSynthesis.speak(tutorUtterance);
+      }
     } else {
       throw new Error("Chat request failed");
     }
   } catch (err) {
     loadingBubble.remove();
-    appendChatBubble(
-      `Here is what you should know about **${markerTitle.textContent}**: ` +
-      `Observe the geometric structure in 3D and review the component labels!`,
-      'tutor'
-    );
+    const fallbackText = `Here is what you should know about **${markerTitle.textContent}**: Observe the geometric structure in 3D and review the component labels!`;
+    appendChatBubble(fallbackText, 'tutor');
+    showTutorCaption(`Here is what you should know about ${markerTitle.textContent}: Observe the geometric structure in 3D and review the component labels!`, 8000);
   }
 }
 
@@ -1542,6 +1914,52 @@ function setupEventListeners() {
   });
 
   // 3D Toolbar
+  if (btnToggleLabels) {
+    btnToggleLabels.addEventListener('click', () => {
+      state.showLabels = !state.showLabels;
+      btnToggleLabels.classList.toggle('active', state.showLabels);
+      if (activeModelGroup) {
+        activeModelGroup.traverse((child) => {
+          if (child.userData && child.userData.isComponentLabel) {
+            child.visible = state.showLabels;
+          }
+        });
+      }
+    });
+  }
+
+  // Closed Captions Overlay & Eye Toggle controls
+  if (btnToggleCaptions) {
+    btnToggleCaptions.addEventListener('click', () => {
+      toggleCaptionsVisibility();
+    });
+  }
+
+  if (btnToggleCaptionsPalette) {
+    btnToggleCaptionsPalette.addEventListener('click', () => {
+      toggleCaptionsVisibility();
+    });
+  }
+
+  if (btnCloseCaptions) {
+    btnCloseCaptions.addEventListener('click', () => {
+      hideTutorCaption(true);
+    });
+  }
+
+  if (btnReopenCaptions) {
+    btnReopenCaptions.addEventListener('click', () => {
+      reopenTutorCaption();
+    });
+  }
+
+  if (btnToggleCutaway) {
+    btnToggleCutaway.addEventListener('click', () => {
+      state.manualCutaway = !state.manualCutaway;
+      applyZoomLODState(state.manualCutaway || (camera && controls ? camera.position.distanceTo(controls.target) < 5.0 : false));
+    });
+  }
+
   btnRotateAuto.addEventListener('click', () => {
     state.autoRotate = !state.autoRotate;
     btnRotateAuto.classList.toggle('active', state.autoRotate);

@@ -11,9 +11,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   
-  <!-- Three.js and OrbitControls CDN -->
+  <!-- Three.js, OrbitControls, and GLTFLoader CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 
   <!-- MindAR.js — Real browser-based image marker tracking -->
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image.prod.js"></script>
@@ -168,8 +169,23 @@
     </div>
   </aside>
 
+  <!-- Dynamic Zoom-based Level-of-Detail HUD Badge (Top Center) -->
+  <div id="zoom-hud-badge" class="zoom-hud-badge">
+    <i class="fas fa-search-plus" id="zoom-hud-icon"></i>
+    <span id="zoom-hud-text">Zoom Level: Macro Anatomy (Exterior)</span>
+  </div>
+
   <!-- 3D Interaction Toolbar (Left side) -->
   <div class="tool-palette">
+    <button class="palette-btn active" id="btn-toggle-labels" title="Toggle 3D Component Labels">
+      <i class="fas fa-tags"></i>
+    </button>
+    <button class="palette-btn active" id="btn-toggle-captions-palette" title="Toggle Voice Closed Captions (Eye)">
+      <i class="fas fa-eye" id="palette-captions-icon"></i>
+    </button>
+    <button class="palette-btn" id="btn-toggle-cutaway" title="Toggle Deep Interior Vasculature / Cutaway View">
+      <i class="fas fa-microscope"></i>
+    </button>
     <button class="palette-btn" id="btn-rotate-auto" title="Toggle Auto-Rotation">
       <i class="fas fa-sync-alt"></i>
     </button>
@@ -203,6 +219,29 @@
       <i class="fas fa-award"></i>
       <span class="btn-text">Take Quiz (5 Qs)</span>
     </button>
+  </div>
+
+  <!-- Floating Re-open Captions Eye Button (Visible when captions overlay is closed) -->
+  <button id="btn-reopen-captions" class="reopen-captions-btn hidden" title="Show Closed Captions">
+    <i class="fas fa-eye"></i>
+    <span>Show Captions</span>
+  </button>
+
+  <!-- AI Tutor Live Closed Captions Overlay (Subtitles) -->
+  <div id="tutor-captions-overlay" class="tutor-captions-overlay hidden">
+    <div class="captions-content">
+      <div class="captions-header">
+        <span class="captions-badge"><i class="fas fa-closed-captioning"></i> AI TUTOR CAPTIONS</span>
+        <div class="captions-actions">
+          <button id="btn-toggle-captions" class="cc-btn active" title="Toggle Captions On/Off"><i class="fas fa-eye"></i></button>
+          <button id="btn-close-captions" class="cc-btn" title="Dismiss Captions">&times;</button>
+        </div>
+      </div>
+      <div class="captions-body">
+        <i class="fas fa-robot tutor-cc-icon"></i>
+        <p id="tutor-caption-text" class="caption-text">AI Tutor closed captions will appear here when speaking or answering...</p>
+      </div>
+    </div>
   </div>
 
   <!-- AI Tutor Chat Drawer Modal -->

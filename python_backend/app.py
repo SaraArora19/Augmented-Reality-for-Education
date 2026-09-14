@@ -158,7 +158,16 @@ if __name__ == "__main__":
     import sys
     use_ssl = "--ssl" in sys.argv
     scheme = "https" if use_ssl else "http"
-    ssl_context = "adhoc" if use_ssl else None
+
+    cert_file = os.path.join(os.path.dirname(__file__), "cert.pem")
+    key_file = os.path.join(os.path.dirname(__file__), "key.pem")
+
+    if use_ssl and os.path.exists(cert_file) and os.path.exists(key_file):
+        ssl_context = (cert_file, key_file)
+    elif use_ssl:
+        ssl_context = "adhoc"
+    else:
+        ssl_context = None
 
     print("=====================================================================")
     print(" Augmented Reality HCI Educational Server")
@@ -168,7 +177,8 @@ if __name__ == "__main__":
     print(f" HCI Evaluation Portal:  {scheme}://localhost:5000/evaluation")
     print(f" API Base:               {scheme}://localhost:5000/api/modules")
     if use_ssl:
-        print(" SSL Mode: ENABLED (Self-signed HTTPS for Mobile Camera Access)")
+        print(f" SSL Mode: ENABLED ({'SAN SSL Cert' if isinstance(ssl_context, tuple) else 'adhoc'})")
     print("=====================================================================")
-    app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=ssl_context)
+    app.run(host="0.0.0.0", port=5000, debug=True, ssl_context=ssl_context, use_reloader=not use_ssl)
+
 

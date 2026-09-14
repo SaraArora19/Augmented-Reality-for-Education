@@ -1083,3 +1083,188 @@ body.ar-drag-active #mindar-container {
   cursor: grabbing;
 }
 
+/* ----------------- AI Tutor Live Closed Captions Overlay ----------------- */
+.tutor-captions-overlay {
+  position: absolute;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90vw, 680px);
+  z-index: 25;
+  pointer-events: auto;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: captionSlideUp 0.4s ease-out;
+}
+
+.tutor-captions-overlay.hidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
+  pointer-events: none;
+}
+
+.captions-content {
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(6, 182, 212, 0.15);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+}
+
+.captions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 6px;
+}
+
+.captions-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--primary-cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.captions-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.cc-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-dim);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.cc-btn:hover, .cc-btn.active {
+  background: var(--primary-cyan);
+  color: #042f2e;
+  border-color: var(--primary-cyan);
+}
+
+.captions-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tutor-cc-icon {
+  color: var(--primary-cyan);
+  font-size: 18px;
+  margin-top: 2px;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+.caption-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #f8fafc;
+  font-weight: 500;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+@keyframes captionSlideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(24px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Palette button active state for 3D label toggle */
+.palette-btn.active {
+  background: var(--primary-cyan);
+  color: #042f2e;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.5);
+}
+
+/* Floating Re-open Captions Eye Button (Shown when captions overlay is closed) */
+.reopen-captions-btn {
+  position: absolute;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 24;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(6, 182, 212, 0.5);
+  color: var(--primary-cyan);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 14px rgba(6, 182, 212, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: captionSlideUp 0.3s ease-out;
+}
+
+.reopen-captions-btn:hover {
+  background: var(--primary-cyan);
+  color: #042f2e;
+  border-color: var(--primary-cyan);
+  box-shadow: 0 10px 28px rgba(6, 182, 212, 0.5);
+  transform: translateX(-50%) scale(1.06);
+}
+
+.reopen-captions-btn.hidden {
+  display: none !important;
+}
+
+/* Dynamic Zoom Level HUD Badge */
+.zoom-hud-badge {
+  position: absolute;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 182, 212, 0.4);
+  color: #f8fafc;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(6, 182, 212, 0.2);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.zoom-hud-badge.interior-active {
+  background: rgba(6, 182, 212, 0.9);
+  color: #042f2e;
+  border-color: #ffffff;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.8);
+}
+
+
+
+
