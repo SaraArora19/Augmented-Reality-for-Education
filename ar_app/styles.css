@@ -1268,3 +1268,9 @@ body.ar-drag-active #mindar-container {
 
 
 
+
+
+/* Camera Mirror & Scan Button */
+#camera-feed { transform: scaleX(-1); }
+.action-scan { background: linear-gradient(135deg, #10b981, #059669); color: white; border: 1px solid rgba(16, 185, 129, 0.5); }
+.action-scan:hover { background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 0 15px rgba(16, 185, 129, 0.4); transform: translateY(-2px); }

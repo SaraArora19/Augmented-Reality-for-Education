@@ -10,6 +10,8 @@ Serves:
 
 import os
 import json
+import base64
+import requests
 from flask import Flask, request, jsonify, send_from_directory, render_template_string
 
 from ai_tutor import AITutor
@@ -139,6 +141,100 @@ def speech_query():
     marker_id = data.get("marker_id", "")
     result = speech_engine.process_speech_query(transcript, marker_id, tutor_engine)
     return jsonify(result)
+
+@app.route("/api/scan_image", methods=["POST"])
+def scan_image():
+    """
+    Receives base64 image from AR camera, sends to Gemini Vision,
+    and returns detected object and labels to generate a 3D model placeholder.
+    Payload: { "image": "base64_string" }
+    """
+    data = request.get_json() or {}
+    image_b64 = data.get("image", "")
+
+    if not image_b64:
+        return jsonify({"error": "No image provided"}), 400
+
+    try:
+        # Strip header if present (e.g., data:image/jpeg;base64,...)
+        if "," in image_b64:
+            image_b64 = image_b64.split(",")[1]
+            
+        image_bytes = base64.b64decode(image_b64)
+        
+        # Extract available models from curriculum data
+        available_models = []
+        for mod in CURRICULUM_DATA.get("modules", []):
+            for marker in mod.get("markers", []):
+                available_models.append({"id": marker["id"], "name": marker["name"]})
+                
+        prompt = f"""
+Identify the main object in this image. 
+Match it to the most relevant 3D model from the following available models:
+{json.dumps(available_models, indent=2)}
+
+Provide a JSON response with two keys: 
+1. 'marker_id' (string): the ID of the matched model. If no model matches, return the closest match.
+2. 'explanation' (string): A short, fun, 1-sentence explanation of what you detected in the image.
+"""
+        api_key = os.environ.get("GOOGLE_API_KEY", "")
+        if not api_key:
+            return jsonify({"error": "GOOGLE_API_KEY not set"}), 500
+
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={api_key}"
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {"text": prompt},
+                        {
+                            "inline_data": {
+                                "mime_type": "image/jpeg",
+                                "data": image_b64
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+        
+        response = requests.post(url, json=payload)
+        if not response.ok:
+            try:
+                models_res = requests.get(f"https://generativelanguage.googleapis.com/v1beta/models?key={api_key}")
+                if models_res.ok:
+                    available = [m['name'] for m in models_res.json().get('models', [])]
+                    print("AVAILABLE MODELS:", available)
+            except:
+                pass
+            return jsonify({"error": f"Gemini API error: {response.text}"}), 500
+            
+        data = response.json()
+        try:
+            text_res = data["candidates"][0]["content"]["parts"][0]["text"]
+        except (KeyError, IndexError):
+            return jsonify({"error": "Unexpected response format from Gemini"}), 500
+        
+        # Try to extract JSON from response
+        try:
+            cleaned_text = text_res
+            if "```json" in cleaned_text:
+                cleaned_text = cleaned_text.split("```json")[1].split("```")[0].strip()
+            elif "```" in cleaned_text:
+                cleaned_text = cleaned_text.split("```")[1].split("```")[0].strip()
+                
+            result_json = json.loads(cleaned_text)
+            return jsonify(result_json)
+        except Exception:
+            # If Gemini didn't return JSON, just return what it said as the explanation
+            return jsonify({
+                "marker_id": None,
+                "explanation": text_res.strip()
+            })
+            
+    except Exception as e:
+        print(f"Error in scan_image: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @app.route("/api/analytics/session", methods=["POST"])
 def record_evaluation_session():

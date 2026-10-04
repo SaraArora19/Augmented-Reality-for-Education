@@ -83,6 +83,7 @@ const btnVoiceNarration = document.getElementById('btn-voice-narration');
 const audioIcon = document.getElementById('audio-icon');
 const btnOpenTutor = document.getElementById('btn-open-tutor');
 const btnOpenQuiz = document.getElementById('btn-open-quiz');
+const btnManualScan = document.getElementById('btn-manual-scan');
 
 // AI Tutor Drawer & Closed Captions
 const tutorDrawer = document.getElementById('tutor-drawer');
@@ -124,6 +125,7 @@ const btnRotateAuto = document.getElementById('btn-rotate-auto');
 const btnExplodeView = document.getElementById('btn-explode-view');
 const btnWireframe = document.getElementById('btn-wireframe');
 const btnResetCam = document.getElementById('btn-reset-cam');
+const btnClearModels = document.getElementById('btn-clear-models');
 
 /* ==========================================================================
    1. Initialization & Curriculum Data Loading
@@ -131,6 +133,12 @@ const btnResetCam = document.getElementById('btn-reset-cam');
 async function initApp() {
   initThreeScene();
   setupEventListeners();
+  
+  if (btnManualScan) {
+    btnManualScan.addEventListener('click', () => {
+      scanImage();
+    });
+  }
 
   try {
     const res = await fetch('/api/modules');
@@ -1512,7 +1520,6 @@ function removeARDragGestures() {
   _arDragTarget = null;
 }
 
-/** Main toggle called by the UI buttons */
 async function toggleARMode(enableAR) {
   state.arMode = enableAR;
   const grid = scene.getObjectByName('gridHelper');
@@ -1522,6 +1529,17 @@ async function toggleARMode(enableAR) {
     btnMode3D.classList.remove('active');
     arViewfinder.classList.remove('viewfinder-hidden');
     if (grid) grid.visible = false;
+    if (btnManualScan) btnManualScan.style.display = 'flex';
+
+    // Turn off initially running 3D model
+    if (activeModelGroup) {
+      scene.remove(activeModelGroup);
+      activeModelGroup = null;
+    }
+    state.activeMarkerId = null;
+    infoCard.classList.add('collapsed');
+    if (state.isNarrating) stopNarration();
+    document.querySelectorAll('.module-chip').forEach(c => c.classList.remove('active'));
 
     // Start live camera stream overlay behind 3D canvas
     await startFallbackCamera();
@@ -1534,6 +1552,7 @@ async function toggleARMode(enableAR) {
     arViewfinder.classList.add('viewfinder-hidden');
     trackingStatus.textContent = '3D Lab Mode Active';
     if (grid) grid.visible = true;
+    if (btnManualScan) btnManualScan.style.display = 'none';
 
     // Restore standard 3D Lab view
     stopMindAR();
@@ -1623,7 +1642,15 @@ function initSpeechRecognition() {
   };
 
   recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
+    const transcript = event.results[0][0].transcript.toLowerCase();
+    
+    // Check for "scan" keyword
+    if (transcript.includes("scan")) {
+      tutorInputField.value = "Scanning image...";
+      scanImage();
+      return;
+    }
+    
     tutorInputField.value = transcript;
     submitTutorMessage(transcript);
   };
@@ -1634,6 +1661,63 @@ function initSpeechRecognition() {
     tutorInputField.placeholder = "Ask a question about this model...";
   };
 }
+
+async function scanImage() {
+  if (!cameraFeed || !cameraFeed.videoWidth) {
+    showTutorCaption("AR Camera is not active. Please open the camera first.", 5000);
+    appendChatBubble("AR Camera is not active. Please open the camera first.", 'tutor');
+    return;
+  }
+  
+  // Capture frame from video
+  const canvas = document.createElement('canvas');
+  canvas.width = cameraFeed.videoWidth;
+  canvas.height = cameraFeed.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+  
+  const base64Image = canvas.toDataURL('image/jpeg');
+  
+  showTutorCaption("Scanning image and calling Gemini...", 10000);
+  const loadingBubble = appendChatBubble("Scanning image and calling Gemini...", 'tutor', true);
+  
+  try {
+    const res = await fetch('/api/scan_image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: base64Image })
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      loadingBubble.remove();
+      
+      if (data.marker_id) {
+        const expl = data.explanation || `Detected object! Loading 3D model: ${data.marker_id}`;
+        showTutorCaption(expl, 8000);
+        appendChatBubble(expl, 'tutor');
+        loadMarker(data.marker_id);
+      } else {
+        const expl = data.explanation || "Could not match the scanned object to a known 3D model.";
+        showTutorCaption(expl, 8000);
+        appendChatBubble(expl, 'tutor');
+      }
+    } else {
+      let errorMsg = "Scan request failed";
+      try {
+        const errData = await res.json();
+        errorMsg = errData.error || errorMsg;
+      } catch (e) {}
+      throw new Error(errorMsg);
+    }
+  } catch (err) {
+    loadingBubble.remove();
+    const shortErr = err.message.length > 100 ? err.message.substring(0, 100) + '...' : err.message;
+    showTutorCaption(`Scan Error: ${shortErr}`, 8000);
+    appendChatBubble(`Failed to scan image. Details: ${err.message}`, 'tutor');
+  }
+}
+
 
 /* ==========================================================================
    8. Socratic AI Tutor Chat Logic
@@ -1881,7 +1965,13 @@ async function submitQuiz() {
 function setupEventListeners() {
   // Mode switches
   btnMode3D.addEventListener('click', () => toggleARMode(false));
-  btnModeAR.addEventListener('click', () => toggleARMode(true));
+  btnModeAR.addEventListener('click', () => {
+    if (state.arMode) {
+      toggleARMode(false);
+    } else {
+      toggleARMode(true);
+    }
+  });
 
   // Module switcher chips
   document.querySelectorAll('.module-chip').forEach(chip => {
@@ -1997,6 +2087,21 @@ function setupEventListeners() {
     controls.reset();
     camera.position.set(0, 2, 7);
   });
+
+  if (btnClearModels) {
+    btnClearModels.addEventListener('click', () => {
+      if (activeModelGroup) {
+        scene.remove(activeModelGroup);
+        activeModelGroup = null;
+      }
+      state.activeMarkerId = null;
+      infoCard.classList.add('collapsed');
+      if (state.isNarrating) stopNarration();
+      
+      // Update chips UI
+      document.querySelectorAll('.module-chip').forEach(c => c.classList.remove('active'));
+    });
+  }
 
   // Tutor Input Bar
   btnSendTutor.addEventListener('click', () => {
